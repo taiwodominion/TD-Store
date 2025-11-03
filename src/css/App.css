@@ -5,3 +5,7 @@
 body {
     font-family: inherit;
 }
+
+body::-webkit-scrollbar {
+    display: none;
+}

@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import '../css/Navbar.css';
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "../css/Navbar.css";
+import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
 
 const Navbar = ({ cartItems, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -14,60 +17,66 @@ const Navbar = ({ cartItems, user, onLogout }) => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
+      setSearchQuery("");
     }
   };
 
-//   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-const cartItemCount = (cartItems || []).reduce((total, item) => total + item.quantity, 0);
-
+  const cartItemCount = (cartItems || []).reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
-    <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
+    <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
       <div className="container">
         <div className="navbar-content">
-          {/* Logo */}
           <Link to="/" className="navbar-logo">
-            <span className="logo-text">ShopHub</span>
+            <span className="logo-text">TD-Store</span>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="navbar-links">
-            <Link 
-              to="/" 
-              className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+            <Link
+              to="/"
+              className={`nav-link ${
+                location.pathname === "/" ? "active" : ""
+              }`}
             >
               Home
             </Link>
-            <Link 
-              to="/products" 
-              className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}
+            <Link
+              to="/products"
+              className={`nav-link ${
+                location.pathname === "/products" ? "active" : ""
+              }`}
             >
               Products
             </Link>
-            <Link 
-              to="/categories" 
-              className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}
+            <Link
+              to="/categories"
+              className={`nav-link ${
+                location.pathname === "/categories" ? "active" : ""
+              }`}
             >
               Categories
             </Link>
-            <Link 
-              to="/contact" 
-              className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
+            <Link
+              to="/contact"
+              className={`nav-link ${
+                location.pathname === "/contact" ? "active" : ""
+              }`}
             >
               Contact
             </Link>
           </div>
 
-          {/* Search Bar */}
           <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
@@ -77,11 +86,10 @@ const cartItemCount = (cartItems || []).reduce((total, item) => total + item.qua
               className="search-input"
             />
             <button type="submit" className="search-button">
-              🔍
+              <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
 
-          {/* Right Side Actions */}
           <div className="navbar-actions">
             {user ? (
               <div className="user-menu">
@@ -97,20 +105,23 @@ const cartItemCount = (cartItems || []).reduce((total, item) => total + item.qua
               </div>
             ) : (
               <div className="auth-links">
-                <Link to="/login" className="nav-link">Login</Link>
-                <Link to="/register" className="nav-link">Register</Link>
+                <Link to="/login" className="nav-link">
+                  Login
+                </Link>
+                <Link to="/register" className="nav-link">
+                  Register
+                </Link>
               </div>
             )}
-            
+
             <Link to="/cart" className="cart-link">
-              🛒
+              <FontAwesomeIcon icon={faShoppingCart} />
               {cartItemCount > 0 && (
                 <span className="cart-badge">{cartItemCount}</span>
               )}
             </Link>
 
-            {/* Mobile Menu Button */}
-            <button 
+            <button
               className="mobile-menu-btn"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -119,39 +130,76 @@ const cartItemCount = (cartItems || []).reduce((total, item) => total + item.qua
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="mobile-menu">
-            <Link to="/" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/"
+              className="mobile-nav-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Home
             </Link>
-            <Link to="/products" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/products"
+              className="mobile-nav-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Products
             </Link>
-            <Link to="/categories" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/categories"
+              className="mobile-nav-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Categories
             </Link>
-            <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/contact"
+              className="mobile-nav-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Contact
             </Link>
             {user ? (
               <>
-                <Link to="/profile" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+                <Link
+                  to="/profile"
+                  className="mobile-nav-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Profile
                 </Link>
-                <Link to="/orders" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+                <Link
+                  to="/orders"
+                  className="mobile-nav-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Orders
                 </Link>
-                <button onClick={() => { onLogout(); setIsMenuOpen(false); }} className="mobile-nav-link">
+                <button
+                  onClick={() => {
+                    onLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="mobile-nav-link"
+                >
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+                <Link
+                  to="/login"
+                  className="mobile-nav-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Login
                 </Link>
-                <Link to="/register" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>
+                <Link
+                  to="/register"
+                  className="mobile-nav-link"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Register
                 </Link>
               </>

@@ -8,6 +8,7 @@
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   transition: all var(--transition-normal);
+  padding: 0 10px;
 }
 
 .navbar-scrolled {
@@ -26,8 +27,10 @@
 .navbar-logo {
   text-decoration: none;
   font-size: 1.5rem;
+  font-family: 'Bitcount Grid Single', sans-serif;
   font-weight: 700;
-  color: var(--primary-color);
+  color: black;
+  /* color: var(--primary-color); */
   transition: transform var(--transition-fast);
 }
 
@@ -36,10 +39,11 @@
 }
 
 .logo-text {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  /* background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background-clip: text; */
+  color: black;
 }
 
 .navbar-links {
@@ -51,6 +55,7 @@
   text-decoration: none;
   color: var(--text-primary);
   font-weight: 500;
+  font-size: 14px;
   position: relative;
   transition: color var(--transition-fast);
   padding: 0.5rem 0;
@@ -150,6 +155,7 @@
   padding: 0.5rem;
   border-radius: var(--radius-md);
   transition: background-color var(--transition-fast);
+  color: black;
 }
 
 .cart-link:hover {
@@ -245,7 +251,6 @@
   }
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
   .navbar-links {
     display: none;
