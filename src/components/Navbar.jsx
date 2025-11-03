@@ -125,7 +125,9 @@ const Navbar = ({ cartItems, user, onLogout }) => {
               className="mobile-menu-btn"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              ☰
+              <span className="ham-menu-line"></span>
+              <span className="ham-menu-line"></span>
+              <span className="ham-menu-line"></span>
             </button>
           </div>
         </div>

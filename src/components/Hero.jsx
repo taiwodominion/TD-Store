@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
 import { products } from '../data/products';
 import heroImage1 from '../assets/rafaella.jpg';
 import heroImage2 from '../assets/freestocks.jpg'
-import heroImage3 from '../assets/tamanna.jpg'
+import heroImage3 from '../assets/clark-street.jpg'
 import '../css/Hero.css';
 
 const Hero = () => {
