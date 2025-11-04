@@ -24,6 +24,11 @@ const HeroCategories = () => {
       image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
       link: "/categories?filter=electronics",
     },
+    {
+      name: "Clothing",
+      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=300&fit=crop",
+      link: "/categories?filter=clothes",
+    },
   ];
 
   return (
