@@ -1,16 +1,19 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Register = () => {
   return (
     <>
-    <nav>
+      <nav>
         <Navbar />
-    </nav>
-    <main>
-    </main>
+      </nav>
+      <main></main>
+      <footer>
+        <Footer />
+      </footer>
     </>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

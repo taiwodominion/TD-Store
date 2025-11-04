@@ -12,6 +12,8 @@
 .section-link {
   text-decoration: none;
   font-weight: 500;
+  color: black;
+  padding: 0 10px;
 }
 
 .products-grid {

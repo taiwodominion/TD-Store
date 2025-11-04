@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import HeroCategories from "../components/HeroCategories";
 import Featured from "../components/Featured";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -15,6 +16,9 @@ const Home = () => {
         <HeroCategories />
         <Featured />
       </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 };
