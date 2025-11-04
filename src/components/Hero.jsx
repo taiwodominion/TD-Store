@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { products } from '../data/products';
 import heroImage1 from '../assets/rafaella.jpg';
 import heroImage2 from '../assets/freestocks.jpg'
 import heroImage3 from '../assets/clark-street.jpg'
 import '../css/Hero.css';
 
 const Hero = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    setFeaturedProducts(products.slice(0, 4));
-  }, []);
 
   const heroSlides = [
     {
