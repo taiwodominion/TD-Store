@@ -1,16 +1,40 @@
+// import React from "react";
+// import Navbar from "../components/Navbar";
+// import AllProducts from "../components/AllProducts";
+// import Footer from "../components/Footer";
+
+// const Products = () => {
+//   return (
+//     <>
+//       <nav>
+//         <Navbar />
+//       </nav>
+//       <main>
+//         <AllProducts />
+//       </main>
+//       <footer>
+//         <Footer />
+//       </footer>
+//     </>
+//   );
+// };
+
+// export default Products;
+
+
 import React from "react";
 import Navbar from "../components/Navbar";
 import AllProducts from "../components/AllProducts";
 import Footer from "../components/Footer";
 
-const Products = () => {
+const Products = ({ onAddToCart, cartItems }) => {
   return (
     <>
       <nav>
-        <Navbar />
+        <Navbar cartItems={cartItems} />
       </nav>
       <main>
-        <AllProducts />
+        <AllProducts onAddToCart={onAddToCart} /> {/* ✅ Pass it here */}
       </main>
       <footer>
         <Footer />

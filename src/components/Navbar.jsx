@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
-import { faSearch } from "@fortawesome/free-solid-svg-icons/faSearch";
 
 const Navbar = ({ cartItems, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,10 +12,7 @@ const Navbar = ({ cartItems, user, onLogout }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -114,8 +110,14 @@ const Navbar = ({ cartItems, user, onLogout }) => {
               </div>
             )}
 
-            <Link to="/cart" className="cart-link">
+            {/* <Link to="/cart" className="cart-link">
               <FontAwesomeIcon icon={faShoppingCart} />
+              {cartItemCount > 0 && (
+                <span className="cart-badge">{cartItemCount}</span>
+              )}
+            </Link> */}
+            <Link to="/cart" className="cart-link">
+              <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
               {cartItemCount > 0 && (
                 <span className="cart-badge">{cartItemCount}</span>
               )}
@@ -162,6 +164,7 @@ const Navbar = ({ cartItems, user, onLogout }) => {
             >
               Contact
             </Link>
+
             {user ? (
               <>
                 <Link

@@ -3,16 +3,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPlus } from "@fortawesome/free-solid-svg-icons";
 import "../css/ProductCard.css";
 
-const ProductCard = ({ product, addToCart }) => {
+const ProductCard = ({ product, onAddToCart }) => {
   const [liked, setLiked] = useState(false);
 
   const toggleLike = () => {
     setLiked(!liked);
   };
 
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddToCart(product);
+  };
+
   return (
     <div className="product-card">
-      <FontAwesomeIcon icon={faHeart}
+      <FontAwesomeIcon
+        icon={faHeart}
         className={`like-icon ${liked ? "liked" : ""}`}
         onClick={toggleLike}
       />
@@ -23,7 +30,7 @@ const ProductCard = ({ product, addToCart }) => {
 
       <div className="product-bottom">
         <span className="product-price">${product.price}</span>
-        <button className="add-btn" onClick={() => addToCart(product)}>
+        <button className="add-btn" onClick={handleAddToCart}>
           <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
