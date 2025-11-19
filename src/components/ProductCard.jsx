@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import "../css/ProductCard.css";
 
 const ProductCard = ({ product, onAddToCart }) => {
   const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleLike = () => {
+  const toggleLike = (e) => {
+    e.stopPropagation();
     setLiked(!liked);
   };
 
@@ -16,8 +19,12 @@ const ProductCard = ({ product, onAddToCart }) => {
     onAddToCart(product);
   };
 
+  const handleCardClick = () => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={handleCardClick}>
       <FontAwesomeIcon
         icon={faHeart}
         className={`like-icon ${liked ? "liked" : ""}`}
