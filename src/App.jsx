@@ -10,6 +10,7 @@ import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import ProductDetail from "./components/ProductDetail";
 import Cart from "./pages/Cart";
+import { FavoritesProvider } from './contexts/FavoritesContext';
 
 const App = () => {
   const [cartItems, setCartItems] = useState(() => {
