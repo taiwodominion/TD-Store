@@ -509,7 +509,8 @@
   border-radius: var(--radius-lg);
   padding: 0.25rem;
   min-width: 300px;
-  border: 2px solid transparent;
+  border: 1px solid black;
+  border-radius: 20px;
   transition: border-color var(--transition-fast);
 }
 
@@ -594,14 +595,15 @@
   position: absolute;
   top: -6px;
   right: -8px;
-  background: crimson;
+  background: rgb(220, 20, 20);
   color: white;
   border-radius: 50%;
   padding: 2px 6px;
   font-size: 0.7rem;
   font-weight: bold;
   line-height: 1;
-  min-width: 18px;
+  padding: 4px 8px;
+  /* min-width: 18px; */
   text-align: center;
   display: inline-block;
   z-index: 1002;

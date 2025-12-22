@@ -54,6 +54,10 @@
   .all-products-grid {
     grid-template-columns: 1fr;
   }
+
+  .all-products-header {
+    display: block;
+  }
 }
 
 .all-products-grid > * {
