@@ -1,79 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faSearch, faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 
-const Navbar = ({ cartItems, user, onLogout }) => {
+const Navbar = ({ cartItems = [], user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Optimized Scroll Listener
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Performance: Memoize cart count
+  const cartItemCount = useMemo(() => 
+    cartItems.reduce((total, item) => total + item.quantity, 0),
+    [cartItems]
+  );
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
+      setIsMenuOpen(false);
     }
   };
 
-  const cartItemCount = (cartItems || []).reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Products", path: "/products" },
+    { name: "Categories", path: "/categories" },
+    { name: "Contact", path: "/contact" },
+  ];
 
   return (
-    <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
-      <div className="container">
-        <div className="navbar-content">
+    <>
+      <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
+        <div className="container navbar-container">
+          {/* Logo */}
           <Link to="/" className="navbar-logo">
             <span className="logo-text">TD-Store</span>
           </Link>
 
+          {/* Desktop Nav Links */}
           <div className="navbar-links">
-            <Link
-              to="/"
-              className={`nav-link ${
-                location.pathname === "/" ? "active" : ""
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/products"
-              className={`nav-link ${
-                location.pathname === "/products" ? "active" : ""
-              }`}
-            >
-              Products
-            </Link>
-            <Link
-              to="/categories"
-              className={`nav-link ${
-                location.pathname === "/categories" ? "active" : ""
-              }`}
-            >
-              Categories
-            </Link>
-            <Link
-              to="/contact"
-              className={`nav-link ${
-                location.pathname === "/contact" ? "active" : ""
-              }`}
-            >
-              Contact
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`nav-link ${location.pathname === link.path ? "active" : ""}`}
+                aria-current={location.pathname === link.path ? "page" : undefined}
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
 
-          <form onSubmit={handleSearch} className="search-form">
+          {/* Search Bar - Desktop */}
+          <form onSubmit={handleSearch} className="search-form desktop-search">
             <input
               type="text"
               placeholder="Search products..."
@@ -81,138 +79,89 @@ const Navbar = ({ cartItems, user, onLogout }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
             />
-            <button type="submit" className="search-button">
+            <button type="submit" className="search-button" aria-label="Search">
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
 
+          {/* Actions */}
           <div className="navbar-actions">
-            {user ? (
-              <div className="user-menu">
-                <Link to="/profile" className="nav-link">
-                  👤 {user.name}
-                </Link>
-                <Link to="/orders" className="nav-link">
-                  Orders
-                </Link>
-                <button onClick={onLogout} className="logout-btn">
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="auth-links">
-                <Link to="/login" className="nav-link">
-                  Login
-                </Link>
-                <Link to="/register" className="nav-link">
-                  Register
-                </Link>
-              </div>
-            )}
+            <div className="desktop-auth">
+              {user ? (
+                <div className="user-dropdown-container">
+                  <Link to="/profile" className="nav-icon-link">
+                    <FontAwesomeIcon icon={faUserCircle} />
+                    <span className="user-name-text">{user.name.split(' ')[0]}</span>
+                  </Link>
+                </div>
+              ) : (
+                <Link to="/login" className="login-btn-link">Login</Link>
+              )}
+            </div>
 
-            {/* <Link to="/cart" className="cart-link">
+            <Link to="/cart" className="cart-link" aria-label="View Cart">
               <FontAwesomeIcon icon={faShoppingCart} />
               {cartItemCount > 0 && (
-                <span className="cart-badge">{cartItemCount}</span>
-              )}
-            </Link> */}
-            <Link to="/cart" className="cart-link">
-              <FontAwesomeIcon icon={faShoppingCart} className="cart-icon" />
-              {cartItemCount > 0 && (
-                <span className="cart-badge">{cartItemCount}</span>
+                <span className="cart-badge animate-pop">{cartItemCount}</span>
               )}
             </Link>
 
             <button
-              className="mobile-menu-btn"
+              className={`mobile-menu-btn ${isMenuOpen ? "open" : ""}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle Menu"
             >
-              <span className="ham-menu-line"></span>
-              <span className="ham-menu-line"></span>
-              <span className="ham-menu-line"></span>
+              <span className="ham-line"></span>
+              <span className="ham-line"></span>
+              <span className="ham-line"></span>
             </button>
           </div>
         </div>
+      </nav>
 
-        {isMenuOpen && (
-          <div className="mobile-menu">
-            <Link
-              to="/"
-              className="mobile-nav-link"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/products"
-              className="mobile-nav-link"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Products
-            </Link>
-            <Link
-              to="/categories"
-              className="mobile-nav-link"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Categories
-            </Link>
-            <Link
-              to="/contact"
-              className="mobile-nav-link"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
+      {/* Mobile Drawer Overlay */}
+      {isMenuOpen && <div className="menu-overlay" onClick={() => setIsMenuOpen(false)}></div>}
 
-            {user ? (
-              <>
-                <Link
-                  to="/profile"
-                  className="mobile-nav-link"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-                <Link
-                  to="/orders"
-                  className="mobile-nav-link"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Orders
-                </Link>
-                <button
-                  onClick={() => {
-                    onLogout();
-                    setIsMenuOpen(false);
-                  }}
-                  className="mobile-nav-link"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="mobile-nav-link"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="mobile-nav-link"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Register
-                </Link>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-    </nav>
+      {/* Mobile Sidebar Menu */}
+      <aside className={`mobile-sidebar ${isMenuOpen ? "active" : ""}`}>
+        <div className="sidebar-header">
+          <span className="logo-text">TD-Store</span>
+          <button onClick={() => setIsMenuOpen(false)} className="close-btn">
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSearch} className="mobile-search">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit"><FontAwesomeIcon icon={faSearch} /></button>
+        </form>
+
+        <div className="mobile-links">
+          {navLinks.map((link) => (
+            <Link key={link.path} to={link.path} onClick={() => setIsMenuOpen(false)}>
+              {link.name}
+            </Link>
+          ))}
+          <hr />
+          {user ? (
+            <>
+              <Link to="/profile" onClick={() => setIsMenuOpen(false)}>My Profile</Link>
+              <Link to="/orders" onClick={() => setIsMenuOpen(false)}>My Orders</Link>
+              <button onClick={() => { onLogout(); setIsMenuOpen(false); }} className="mobile-logout">
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login / Register</Link>
+          )}
+        </div>
+      </aside>
+    </>
   );
 };
 

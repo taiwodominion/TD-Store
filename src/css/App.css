@@ -4,6 +4,7 @@
 
 body {
     font-family: inherit;
+    scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {
