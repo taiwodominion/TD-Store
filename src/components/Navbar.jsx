@@ -12,7 +12,6 @@ const Navbar = ({ cartItems = [], user, onLogout }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Optimized Scroll Listener
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -51,12 +50,11 @@ const Navbar = ({ cartItems = [], user, onLogout }) => {
     <>
       <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
         <div className="container navbar-container">
-          {/* Logo */}
+
           <Link to="/" className="navbar-logo">
             <span className="logo-text">TD-Store</span>
           </Link>
 
-          {/* Desktop Nav Links */}
           <div className="navbar-links">
             {navLinks.map((link) => (
               <Link
@@ -70,7 +68,6 @@ const Navbar = ({ cartItems = [], user, onLogout }) => {
             ))}
           </div>
 
-          {/* Search Bar - Desktop */}
           <form onSubmit={handleSearch} className="search-form desktop-search">
             <input
               type="text"
@@ -84,7 +81,6 @@ const Navbar = ({ cartItems = [], user, onLogout }) => {
             </button>
           </form>
 
-          {/* Actions */}
           <div className="navbar-actions">
             <div className="desktop-auth">
               {user ? (

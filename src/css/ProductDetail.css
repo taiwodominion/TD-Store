@@ -505,7 +505,6 @@
   transform: translateY(-2px);
 }
 
-/* Animations */
 @keyframes loading {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
@@ -522,7 +521,6 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .product-detail-container .product-content {
     gap: 3rem;

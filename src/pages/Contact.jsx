@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import ContactCard from '../components/ContactCard'
 import Footer from "../components/Footer";
 
 const Contact = () => {
@@ -8,7 +9,9 @@ const Contact = () => {
       <nav>
         <Navbar />
       </nav>
-      <main></main>
+      <main>
+        <ContactCard />
+      </main>
       <footer>
         <Footer />
       </footer>
