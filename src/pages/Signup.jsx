@@ -1,16 +1,16 @@
 import React from "react";
-// import Navbar from "../components/Navbar";
-import LoginForm from "../components/LoginForm";
+import Navbar from "../components/Navbar";
+import SignupForm from "../components/SignupForm";
 import Footer from "../components/Footer";
 
-const Login = () => {
+const Signup = () => {
   return (
     <>
       <nav>
-        {/* <Navbar /> */}
+        <Navbar />
       </nav>
       <main>
-        <LoginForm />
+        <SignupForm />
       </main>
       <footer>
         <Footer />
@@ -19,4 +19,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

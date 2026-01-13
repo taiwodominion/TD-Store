@@ -1,14 +1,14 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import AllProducts from "../components/AllProducts";
 import Footer from "../components/Footer";
 
 const Products = ({ onAddToCart, cartItems }) => {
   return (
     <>
-      <nav>
+      {/* <nav>
         <Navbar cartItems={cartItems} />
-      </nav>
+      </nav> */}
       <main>
         <AllProducts onAddToCart={onAddToCart} /> {/* ✅ Pass it here */}
       </main>

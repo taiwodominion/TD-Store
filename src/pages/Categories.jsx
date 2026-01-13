@@ -1,14 +1,14 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import AllCategories from "../components/AllCategories";
 import Footer from "../components/Footer";
 
 const Categories = () => {
   return (
     <>
-      <nav>
+      {/* <nav>
         <Navbar />
-      </nav>
+      </nav> */}
       <main>
         <AllCategories />
       </main>

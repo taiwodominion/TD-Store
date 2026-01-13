@@ -285,7 +285,7 @@
   border-top: 1px solid var(--border-color);
   margin: 1rem 0;
 }
-
+/* 
 .mobile-logout {
   background: none;
   border: 1px solid var(--accent-color);
@@ -294,6 +294,131 @@
   border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
+} */
+
+/* Desktop Logout Styling */
+/* .user-nav-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logout-btn-link {
+    background: transparent;
+    border: 1px solid #003366;
+    color: #003366;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-btn-link:hover {
+    background: #003366;
+    color: #fff;
+}
+
+.mobile-user-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mobile-logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+} */
+
+/* --- Desktop User & Logout Styles --- */
+.user-logged-in {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px;
+  border-radius: var(--radius-lg);
+  transition: var(--transition-normal);
+}
+
+.user-name-text {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.logout-icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.logout-icon-btn:hover {
+  color: var(--accent-color); /* Turns red/pink on hover */
+}
+
+/* --- Mobile Sidebar User Styles --- */
+.mobile-user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-user-greeting span {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.mobile-auth-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-logout-btn {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: opacity var(--transition-fast);
+}
+
+.mobile-logout-btn:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* Sidebar Divider Adjustment */
+.sidebar-divider {
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  margin: 1.5rem 0;
+}
+
+.welcome-text {
+    font-weight: bold;
+    color: #003366;
+    font-size: 1.1rem;
 }
 
 @media (max-width: 1000px) {
