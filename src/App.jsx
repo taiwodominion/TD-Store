@@ -119,7 +119,6 @@
 
 // export default App;
 
-
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { auth } from "./firebase"; // 1. IMPORT YOUR AUTH
@@ -129,16 +128,19 @@ import Home from "./pages/Home";
 import "./css/App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import Categories from "./pages/Categories";
 import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import ProductDetail from "./components/ProductDetail";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Cart from "./pages/Cart";
 
 const App = () => {
   // --- AUTH STATE ---
-  const [user, setUser] = useState(null); // This holds the logged-in user
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // --- CART STATE ---
   const [cartItems, setCartItems] = useState(() => {
@@ -150,6 +152,7 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser); // Automatically updates whenever user logs in/out
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -169,9 +172,17 @@ const App = () => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product, selectedSize = null, selectedColor = null, quantity = 1) => {
+  const addToCart = (
+    product,
+    selectedSize = null,
+    selectedColor = null,
+    quantity = 1
+  ) => {
     const existingItemIndex = cartItems.findIndex(
-      (item) => item.id === product.id && item.selectedSize === selectedSize && item.selectedColor === selectedColor
+      (item) =>
+        item.id === product.id &&
+        item.selectedSize === selectedSize &&
+        item.selectedColor === selectedColor
     );
 
     if (existingItemIndex >= 0) {
@@ -195,7 +206,11 @@ const App = () => {
       handleRemoveItem(cartId);
       return;
     }
-    setCartItems(cartItems.map((item) => (item.cartId === cartId ? { ...item, quantity } : item)));
+    setCartItems(
+      cartItems.map((item) =>
+        item.cartId === cartId ? { ...item, quantity } : item
+      )
+    );
   };
 
   const handleRemoveItem = (cartId) => {
@@ -204,6 +219,12 @@ const App = () => {
 
   const clearCart = () => setCartItems([]);
 
+  if (loading) {
+    return <div className="loading-screen">Loading td-store...</div>;
+  }
+
+  console.log("APP LEVEL - User State:", user ? user.email : "NO USER");
+
   return (
     <>
       {/* 5. PASS USER AND LOGOUT TO NAVBAR */}
@@ -211,11 +232,29 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home onAddToCart={addToCart} />} />
-        <Route path="/products" element={<Products onAddToCart={addToCart} cartItems={cartItems} />} />
-        <Route path="/product/:productId" element={<ProductDetail onAddToCart={addToCart} />} />
-        <Route path="/categories" element={<Categories onAddToCart={addToCart} />} />
+        <Route
+          path="/products"
+          element={<Products onAddToCart={addToCart} cartItems={cartItems} />}
+        />
+        <Route
+          path="/product/:productId"
+          element={<ProductDetail onAddToCart={addToCart} />}
+        />
+        <Route
+          path="/categories"
+          element={<Categories onAddToCart={addToCart} />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/profile" element={<Profile />} /> */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute user={user}>
+              <Profile user={user} />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
         <Route
