@@ -330,8 +330,8 @@ const Navbar = ({ cartItems = [], user, onLogout }) => {
           {/* Mobile Auth Toggle */}
           {user ? (
             <div className="mobile-user-actions">
-              {/* <Link to="/profile" onClick={() => setIsMenuOpen(false)}>My Profile</Link>
-              <Link to="/orders" onClick={() => setIsMenuOpen(false)}>My Orders</Link> */}
+              <Link to="/profile" onClick={() => setIsMenuOpen(false)}>My Profile</Link>
+              {/* <Link to="/orders" onClick={() => setIsMenuOpen(false)}>My Orders</Link> */}
               <button 
                 onClick={() => { onLogout(); setIsMenuOpen(false); }} 
                 className="mobile-logout-btn"
