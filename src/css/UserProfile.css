@@ -1,5 +1,5 @@
 .profile-container {
-  padding: 100px 20px; /* Space for fixed navbar */
+  padding: 100px 20px;
   display: flex;
   justify-content: center;
   background-color: var(--surface-color);
@@ -94,4 +94,47 @@
   padding: 12px;
   border-radius: var(--radius-md);
   cursor: pointer;
+}
+
+.edit-input-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  text-align: center;
+  width: 80%;
+  margin-top: 10px;
+}
+
+.order-history {
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  text-align: left;
+}
+
+.order-item {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  margin-right: 10px;
+}
+.cancel-btn {
+  background: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
 }
