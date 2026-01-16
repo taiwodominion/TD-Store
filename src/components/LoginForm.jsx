@@ -22,9 +22,8 @@ const LoginForm = () => {
             await signInWithEmailAndPassword(auth, email, password);
             
             console.log("Login successful!");
-            navigate('/'); // Redirect to homepage after login
+            navigate('/');
         } catch (err) {
-            // Professional error handling
             if (err.code === 'auth/user-not-found') {
                 setError("No account found with this email.");
             } else if (err.code === 'auth/wrong-password') {

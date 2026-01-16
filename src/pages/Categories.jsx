@@ -3,14 +3,13 @@ import React from "react";
 import AllCategories from "../components/AllCategories";
 import Footer from "../components/Footer";
 
-const Categories = () => {
+// 1. Accept 'products' and 'onAddToCart' as props from App.jsx
+const Categories = ({ products, onAddToCart }) => {
   return (
     <>
-      {/* <nav>
-        <Navbar />
-      </nav> */}
       <main>
-        <AllCategories />
+        {/* 2. Pass those props down to AllCategories */}
+        <AllCategories products={products} onAddToCart={onAddToCart} />
       </main>
       <footer>
         <Footer />

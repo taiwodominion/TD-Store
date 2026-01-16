@@ -1,9 +1,10 @@
 import React from 'react';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+// REMOVED: import { products } from '../data/products';
 import '../css/AllCategories.css';
 
-const AllCategories = ({ onAddToCart }) => {
+// Add 'products' to the props list here
+const AllCategories = ({ products, onAddToCart }) => {
   const categories = ['clothes', 'shoes', 'bags', 'electronics'];
 
   return (
@@ -12,20 +13,27 @@ const AllCategories = ({ onAddToCart }) => {
         <h1 className="all-categories-title">Shop by Category</h1>
 
         {categories.map((category) => {
+          // Now filtering the live 'products' passed from App.jsx
           const categoryProducts = products.filter((p) => p.category === category);
 
           return (
             <div key={category} className="category-section">
-              <h2 className="category-title">{category}</h2>
+              <h2 className="category-title" style={{ textTransform: 'capitalize' }}>
+                {category}
+              </h2>
 
               <div className="category-grid">
-                {categoryProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onAddToCart={onAddToCart}
-                  />
-                ))}
+                {categoryProducts.length > 0 ? (
+                  categoryProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onAddToCart={onAddToCart}
+                    />
+                  ))
+                ) : (
+                  <p className="no-products">No products found in this category.</p>
+                )}
               </div>
             </div>
           );

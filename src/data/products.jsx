@@ -1,270 +1,44 @@
-export const products = [
-  {
-    id: 1,
-    name: "Classic Cotton T-Shirt",
-    category: "clothes",
-    price: 29.99,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
-    description: "Comfortable and versatile cotton t-shirt perfect for everyday wear.",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "White", "Navy", "Gray"],
-    inStock: true,
-    rating: 4.5,
-    reviews: 128
-  },
-  {
-    id: 2,
-    name: "Running Sneakers",
-    category: "shoes",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop",
-    description: "Lightweight running shoes with excellent cushioning and support.",
-    sizes: ["7", "8", "9", "10", "11", "12"],
-    colors: ["White", "Black", "Blue", "Red"],
-    inStock: true,
-    rating: 4.7,
-    reviews: 94
-  },
-  {
-    id: 3,
-    name: "Leather Crossbody Bag",
-    category: "bags",
-    price: 149.99,
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
-    description: "Elegant genuine leather crossbody bag with adjustable strap.",
-    sizes: ["One Size"],
-    colors: ["Brown", "Black", "Tan"],
-    inStock: true,
-    rating: 4.8,
-    reviews: 67
-  },
-  {
-    id: 4,
-    name: "Denim Jeans",
-    category: "clothes",
-    price: 79.99,
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop",
-    description: "Classic fit denim jeans made from premium cotton blend.",
-    sizes: ["28", "30", "32", "34", "36", "38"],
-    colors: ["Blue", "Black", "Light Blue"],
-    inStock: true,
-    rating: 4.4,
-    reviews: 156
-  },
-  {
-    id: 5,
-    name: "Wireless Headphones",
-    category: "electronics",
-    price: 199.99,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
-    description: "Premium wireless headphones with noise cancellation.",
-    sizes: ["One Size"],
-    colors: ["Black", "White", "Silver"],
-    inStock: true,
-    rating: 4.6,
-    reviews: 203
-  },
-  {
-    id: 6,
-    name: "Canvas Backpack",
-    category: "bags",
-    price: 59.99,
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&h=400&fit=crop",
-    description: "Durable canvas backpack perfect for work or travel.",
-    sizes: ["One Size"],
-    colors: ["Khaki", "Navy", "Black"],
-    inStock: true,
-    rating: 4.3,
-    reviews: 89
-  },
-  {
-    id: 7,
-    name: "Formal Oxford Shoes",
-    category: "shoes",
-    price: 159.99,
-    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=400&fit=crop",
-    description: "Elegant leather oxford shoes for formal occasions.",
-    sizes: ["7", "8", "9", "10", "11", "12"],
-    colors: ["Black", "Brown"],
-    inStock: true,
-    rating: 4.5,
-    reviews: 78
-  },
-  {
-    id: 8,
-    name: "Summer Dress",
-    category: "clothes",
-    price: 69.99,
-    image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop",
-    description: "Light and breezy summer dress perfect for warm weather.",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Floral", "Solid Blue", "White"],
-    inStock: true,
-    rating: 4.6,
-    reviews: 112
-  },
-  {
-    id: 9,
-    name: "Bluetooth Speaker",
-    category: "electronics",
-    price: 129.99,
-    image: "https://images.unsplash.com/photo-1616628188502-7b7e1e9b5bb4?w=400&h=400&fit=crop",
-    description: "Portable Bluetooth speaker with deep bass and long battery life.",
-    sizes: ["One Size"],
-    colors: ["Black", "Gray", "Blue"],
-    inStock: true,
-    rating: 4.7,
-    reviews: 141
-  },
-  {
-    id: 10,
-    name: "Slim Fit Hoodie",
-    category: "clothes",
-    price: 49.99,
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=400&fit=crop",
-    description: "Soft and stylish hoodie with a modern slim fit design.",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Gray", "Beige"],
-    inStock: true,
-    rating: 4.4,
-    reviews: 98
-  },
-  {
-    id: 11,
-    name: "Travel Duffel Bag",
-    category: "bags",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&h=400&fit=crop",
-    description: "Spacious duffel bag with water-resistant material and sturdy zippers.",
-    sizes: ["One Size"],
-    colors: ["Gray", "Navy", "Black"],
-    inStock: true,
-    rating: 4.5,
-    reviews: 102
-  },
-  {
-    id: 12,
-    name: "Smartwatch Series 6",
-    category: "electronics",
-    price: 299.99,
-    image: "https://images.unsplash.com/photo-1589903308904-1010c2294adc?w=400&h=400&fit=crop",
-    description: "Advanced smartwatch with fitness tracking and heart-rate monitor.",
-    sizes: ["One Size"],
-    colors: ["Black", "Silver", "Gold"],
-    inStock: true,
-    rating: 4.8,
-    reviews: 223
-  },
-  {
-    id: 13,
-    name: "Leather Wallet",
-    category: "bags",
-    price: 49.99,
-    image: "https://images.unsplash.com/photo-1618354691373-8929e97b6b6f?w=400&h=400&fit=crop",
-    description: "Compact leather wallet with multiple card slots and coin pocket.",
-    sizes: ["One Size"],
-    colors: ["Brown", "Black"],
-    inStock: true,
-    rating: 4.6,
-    reviews: 77
-  },
-  {
-    id: 14,
-    name: "Sporty Running Shorts",
-    category: "clothes",
-    price: 34.99,
-    image: "https://images.unsplash.com/photo-1526178612550-3e4e6c2a9b61?w=400&h=400&fit=crop",
-    description: "Lightweight running shorts with breathable fabric and pocket zip.",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Black", "Gray", "Navy"],
-    inStock: true,
-    rating: 4.5,
-    reviews: 91
-  },
-  {
-    id: 15,
-    name: "Casual Slip-On Shoes",
-    category: "shoes",
-    price: 69.99,
-    image: "https://images.unsplash.com/photo-1528701800489-20beabbe8a6f?w=400&h=400&fit=crop",
-    description: "Easy-to-wear slip-on shoes with breathable fabric upper.",
-    sizes: ["7", "8", "9", "10", "11"],
-    colors: ["Gray", "Black", "Navy"],
-    inStock: true,
-    rating: 4.3,
-    reviews: 87
-  },
-  {
-    id: 16,
-    name: "Noise Cancelling Earbuds",
-    category: "electronics",
-    price: 149.99,
-    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop",
-    description: "Compact wireless earbuds with active noise cancellation and touch control.",
-    sizes: ["One Size"],
-    colors: ["White", "Black"],
-    inStock: true,
-    rating: 4.6,
-    reviews: 130
-  },
-  {
-    id: 17,
-    name: "Silk Scarf",
-    category: "clothes",
-    price: 39.99,
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&h=400&fit=crop",
-    description: "Luxurious silk scarf with vibrant prints and soft texture.",
-    sizes: ["One Size"],
-    colors: ["Floral", "Red", "Blue"],
-    inStock: true,
-    rating: 4.7,
-    reviews: 45
-  },
-  {
-    id: 18,
-    name: "Leather Tote Bag",
-    category: "bags",
-    price: 129.99,
-    image: "https://images.unsplash.com/photo-1542060748-10c28b62716a?w=400&h=400&fit=crop",
-    description: "Spacious leather tote bag for daily use or work.",
-    sizes: ["One Size"],
-    colors: ["Tan", "Brown", "Black"],
-    inStock: true,
-    rating: 4.8,
-    reviews: 92
-  },
-  {
-    id: 19,
-    name: "High-Top Sneakers",
-    category: "shoes",
-    price: 119.99,
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=400&fit=crop",
-    description: "Trendy high-top sneakers for streetwear style lovers.",
-    sizes: ["7", "8", "9", "10", "11"],
-    colors: ["White", "Black", "Gray"],
-    inStock: true,
-    rating: 4.5,
-    reviews: 142
-  },
-  {
-    id: 20,
-    name: "Smart Tablet 10”",
-    category: "electronics",
-    price: 399.99,
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
-    description: "Powerful tablet with HD display and long-lasting battery for productivity on the go.",
-    sizes: ["One Size"],
-    colors: ["Gray", "Silver", "Black"],
-    inStock: true,
-    rating: 4.9,
-    reviews: 256
-  }
-];
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import ProductCard from "../components/ProductCard";
 
-export const categories = [
-  { id: "all", name: "All Products", count: products.length },
-  { id: "clothes", name: "Clothing", count: products.filter(p => p.category === "clothes").length },
-  { id: "shoes", name: "Shoes", count: products.filter(p => p.category === "shoes").length },
-  { id: "bags", name: "Bags", count: products.filter(p => p.category === "bags").length },
-  { id: "electronics", name: "Electronics", count: products.filter(p => p.category === "electronics").length }
-];
+const Products = ({ onAddToCart }) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        const productsArray = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProducts(productsArray);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) return <div className="loader">Loading Products...</div>;
+
+  return (
+    <div className="products-grid">
+      {products.map((product) => (
+        <ProductCard 
+          key={product.id} 
+          product={product} 
+          onAddToCart={onAddToCart} 
+        />
+      ))}
+    </div>
+  );
+};
+
+export default Products;

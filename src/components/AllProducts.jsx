@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+// REMOVED: import { products } from '../data/products';
 import '../css/AllProducts.css';
 
-const AllProducts = ({ onAddToCart }) => {
+// 1. Receive 'products' as a prop
+const AllProducts = ({ products, onAddToCart }) => {
+  // Use products prop as the initial state
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [sortBy, setSortBy] = useState('name');
+
+  // 2. Synchronize the local state with the props from Firebase
+  useEffect(() => {
+    // When the app first loads, products might be empty for a split second.
+    // This effect runs again as soon as the data arrives from App.jsx.
+    setFilteredProducts(products);
+  }, [products]);
 
   const handleSort = (value) => {
     setSortBy(value);
@@ -22,7 +31,7 @@ const AllProducts = ({ onAddToCart }) => {
     <div className="all-products-page">
       <div className="container">
         <div className="all-products-header">
-          <h1>All Products</h1>
+          <h1>All Products ({filteredProducts.length})</h1>
           <select 
             value={sortBy} 
             onChange={(e) => handleSort(e.target.value)}
@@ -31,18 +40,24 @@ const AllProducts = ({ onAddToCart }) => {
             <option value="name">Sort by Name</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
-            <option value="rating">Rating</option>
+            <option value="rating">Highest Rated</option>
           </select>
         </div>
 
         <div className="all-products-grid">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={onAddToCart}
-            />
-          ))}
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={onAddToCart}
+              />
+            ))
+          ) : (
+            <div className="loading-state">
+              <p>No products found...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

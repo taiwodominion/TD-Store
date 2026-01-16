@@ -12,12 +12,11 @@
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 400px;
-    text-align: center;
+    max-width: 1000px;
 }
 
 .login-form h2 {
-    color: #003366; /* Academic Blue */
+    color: #003366;
     margin-bottom: 1.5rem;
 }
 

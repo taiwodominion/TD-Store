@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import '../css/SignupForm.css'
 
 const SignupForm = () => {
@@ -68,7 +68,7 @@ const SignupForm = () => {
                 />
 
                 <button type="submit">Sign Up</button>
-                <p>Already have an account? <span onClick={() => navigate('/login')}>Login</span></p>
+                <p>Already have an account? <Link to="/login">Login</Link></p>
             </form>
         </div>
     );
