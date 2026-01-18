@@ -10,17 +10,32 @@ import RecentlyViewed from "../components/RecentlyViewed";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 
-const Home = ({ products, onAddToCart, cartItems, user }) => {
+const Home = ({
+  products,
+  onAddToCart,
+  cartItems,
+  user,
+  favorites,
+  onToggleFavorite,
+}) => {
   return (
     <>
       <main>
         <Hero />
         <HeroCategories />
-        {/* Pass products down here */}
-        <Featured onAddToCart={onAddToCart} products={products} />
+        <Featured
+          products={products}
+          onAddToCart={onAddToCart}
+          favorites={favorites}
+          onToggleFavorite={onToggleFavorite}
+        />
         <LifestyleBanner />
-        {/* Pass products down here too */}
-        <NewArrivals onAddToCart={onAddToCart} products={products} />
+        <NewArrivals
+          products={products}
+          onAddToCart={onAddToCart}
+          favorites={favorites}
+          onToggleFavorite={onToggleFavorite}
+        />
         <Testimonials />
         <RecentlyViewed />
         <Newsletter />

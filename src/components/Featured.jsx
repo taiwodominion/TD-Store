@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// REMOVED: import { products } from "../data/products"; <--- This was the error
 import ProductCard from "../components/ProductCard";
 import "../css/Featured.css";
 
-const Featured = ({ products, onAddToCart }) => {
+const Featured = ({ products, onAddToCart, favorites, onToggleFavorite }) => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
 
   useEffect(() => {
-    // If products exist, take the first 7
     if (products && products.length > 0) {
       setFeaturedProducts(products.slice(0, 7));
     }
-  }, [products]); // Added [products] here so it updates once the Firebase data arrives
+  }, [products]);
 
   return (
     <section className="featured-section">
@@ -30,6 +28,8 @@ const Featured = ({ products, onAddToCart }) => {
               key={product.id}
               product={product}
               onAddToCart={onAddToCart}
+              favorites={favorites} // Must pass this
+              onToggleFavorite={onToggleFavorite}
             />
           ))}
         </div>

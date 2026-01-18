@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth } from '../firebase'; // Path to your firebase.js
+import { auth } from '../firebase'; // Path to my firebase.js
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from 'react-router-dom';
 import "../css/LoginForm.css"; 
@@ -18,7 +18,7 @@ const LoginForm = () => {
         setLoading(true);
 
         try {
-            // This line triggers the onAuthStateChanged in App.jsx
+            // This triggers the onAuthStateChanged in App.jsx
             await signInWithEmailAndPassword(auth, email, password);
             
             console.log("Login successful!");

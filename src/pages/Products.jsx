@@ -3,13 +3,16 @@ import React from "react";
 import AllProducts from "../components/AllProducts";
 import Footer from "../components/Footer";
 
-// 1. Add 'products' to the props received from App.jsx
-const Products = ({ products, onAddToCart, cartItems }) => {
+const Products = ({ products, onAddToCart, cartItems, favorites, onToggleFavorite }) => {
   return (
     <>
       <main>
-        {/* 2. Pass 'products' down to AllProducts */}
-        <AllProducts products={products} onAddToCart={onAddToCart} /> 
+        <AllProducts
+          products={products} 
+          onAddToCart={onAddToCart} 
+          favorites={favorites}  
+          onToggleFavorite={onToggleFavorite}
+        /> 
       </main>
       <footer>
         <Footer />

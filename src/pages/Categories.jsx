@@ -1,15 +1,17 @@
 import React from "react";
-// import Navbar from "../components/Navbar";
 import AllCategories from "../components/AllCategories";
 import Footer from "../components/Footer";
 
-// 1. Accept 'products' and 'onAddToCart' as props from App.jsx
-const Categories = ({ products, onAddToCart }) => {
+const Categories = ({ products, onAddToCart, favorites, onToggleFavorite }) => {
   return (
     <>
       <main>
-        {/* 2. Pass those props down to AllCategories */}
-        <AllCategories products={products} onAddToCart={onAddToCart} />
+        <AllCategories 
+          products={products} 
+          onAddToCart={onAddToCart} 
+          favorites={favorites}
+          onToggleFavorite={onToggleFavorite}
+        />
       </main>
       <footer>
         <Footer />

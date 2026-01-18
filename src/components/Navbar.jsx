@@ -5,13 +5,13 @@ import {
   faSearch, 
   faTimes, 
   faUserCircle, 
-  faSignOutAlt 
+  faSignOutAlt,
+  faHeart 
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 
-// 1. Accept 'products' as a prop from App.jsx
-const Navbar = ({ cartItems = [], user, onLogout, products = [] }) => {
+const Navbar = ({ cartItems = [], user, onLogout, products = [], favorites = [] }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,15 +20,21 @@ const Navbar = ({ cartItems = [], user, onLogout, products = [] }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Use item.qty to match App.jsx instead of item.quantity
+  const totalCartCount = useMemo(() => 
+    cartItems.reduce((total, item) => total + (item.qty || 0), 0),
+    [cartItems]
+  );
+
   useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (!event.target.closest(".search-container")) {
-      setShowResults(false);
-    }
-  };
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".search-container")) {
+        setShowResults(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,32 +44,21 @@ const Navbar = ({ cartItems = [], user, onLogout, products = [] }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 2. Filter products based on search query for the dropdown
-const filteredResults = useMemo(() => {
-  if (!searchQuery.trim()) return [];
-  
-  return products.filter(product => {
-    // We use || "" to ensure we never call .toLowerCase() on undefined
-    const name = product?.name || "";
-    const category = product?.category || "";
-    
-    return (
-      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      category.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }).slice(0, 5);
-}, [searchQuery, products]);
-
-  const cartItemCount = useMemo(() => 
-    cartItems.reduce((total, item) => total + item.quantity, 0),
-    [cartItems]
-  );
+  const filteredResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    return products.filter(product => {
+      const name = product?.name || "";
+      const category = product?.category || "";
+      return (
+        name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        category.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }).slice(0, 5);
+  }, [searchQuery, products]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // You can either go to an all-products page with a filter 
-      // or just clear it if you use the dropdown method
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
       setShowResults(false);
@@ -72,10 +67,15 @@ const filteredResults = useMemo(() => {
   };
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Products", path: "/products" },
-    { name: "Categories", path: "/categories" },
-    { name: "Contact", path: "/contact" },
+    { name: "Home", path: "/", id: "nav-home" },
+    { name: "Products", path: "/products", id: "nav-products" },
+    { name: "Categories", path: "/categories", id: "nav-categories" },
+    { name: "Contact", path: "/contact", id: "nav-contact" },
+    ...(user ? [{ 
+      name: `Favorites ${favorites.length > 0 ? `(${favorites.length})` : ""}`, 
+      path: "/favorites", 
+      id: "nav-fav" 
+    }] : [])
   ];
 
   return (
@@ -90,7 +90,7 @@ const filteredResults = useMemo(() => {
           <div className="navbar-links">
             {navLinks.map((link) => (
               <Link
-                key={link.path}
+                key={link.id}
                 to={link.path}
                 className={`nav-link ${location.pathname === link.path ? "active" : ""}`}
               >
@@ -99,7 +99,6 @@ const filteredResults = useMemo(() => {
             ))}
           </div>
 
-          {/* 3. Search Bar with Dropdown Results */}
           <div className="search-container desktop-search">
             <form onSubmit={handleSearchSubmit} className="search-form">
               <input
@@ -118,7 +117,6 @@ const filteredResults = useMemo(() => {
               </button>
             </form>
 
-            {/* Dropdown Results */}
             {showResults && filteredResults.length > 0 && (
               <div className="search-dropdown">
                 {filteredResults.map(product => (
@@ -163,8 +161,8 @@ const filteredResults = useMemo(() => {
 
             <Link to="/cart" className="cart-link">
               <FontAwesomeIcon icon={faShoppingCart} />
-              {cartItemCount > 0 && (
-                <span className="cart-badge animate-pop">{cartItemCount}</span>
+              {totalCartCount > 0 && (
+                <span className="cart-badge animate-pop">{totalCartCount}</span>
               )}
             </Link>
 
@@ -180,7 +178,6 @@ const filteredResults = useMemo(() => {
         </div>
       </nav>
 
-      {/* Mobile Sidebar & Search (simplified) */}
       <aside className={`mobile-sidebar ${isMenuOpen ? "active" : ""}`}>
         <div className="sidebar-header">
           <span className="logo-text">TD-Store</span>
@@ -201,10 +198,11 @@ const filteredResults = useMemo(() => {
 
         <div className="mobile-links">
           {navLinks.map((link) => (
-            <Link key={link.path} to={link.path} onClick={() => setIsMenuOpen(false)}>
+            <Link key={link.id} to={link.path} onClick={() => setIsMenuOpen(false)}>
               {link.name}
             </Link>
           ))}
+          
           <hr className="sidebar-divider" />
           {user ? (
             <div className="mobile-user-actions">

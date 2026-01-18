@@ -46,4 +46,8 @@
   .newsletter-form {
     flex-direction: column;
   }
+
+  .newsletter-form button {
+    padding: 10px 30px;
+  }
 }

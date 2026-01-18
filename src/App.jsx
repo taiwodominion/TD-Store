@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { auth, db } from "./firebase"; 
+import { auth, db } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore"; // Added Firestore imports
+import { collection, getDocs, setDoc, doc, getDoc } from "firebase/firestore";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -16,8 +16,10 @@ import Contact from "./pages/Contact";
 import ProductDetail from "./components/ProductDetail";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Cart from "./pages/Cart";
+import Favorites from "./pages/Favorites";
+import About from "./pages/About";
 
-import AdminDashboard from './admin/AdminDashboard'
+import AdminDashboard from "./admin/AdminDashboard";
 
 import "./css/App.css";
 
@@ -27,20 +29,47 @@ const App = () => {
 
   const [allProducts, setAllProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // 1. FETCH ALL PRODUCTS FROM FIREBASE (Single Source of Truth)
+  const toggleFavorite = async (productId) => {
+    if (!user) {
+      alert("Please login to save favorites!");
+      return;
+    }
+
+    const isLiked = favorites.includes(productId);
+    const updatedFavorites = isLiked
+      ? favorites.filter((id) => id !== productId)
+      : [...favorites, productId];
+
+    setFavorites(updatedFavorites);
+
+    try {
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          favoriteIds: updatedFavorites,
+        },
+        { merge: true },
+      );
+    } catch (error) {
+      console.error("Error syncing favorites:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-        const productsArray = querySnapshot.docs.map(doc => ({
+        const productsArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         setAllProducts(productsArray);
       } catch (error) {
@@ -52,16 +81,44 @@ const App = () => {
     fetchProducts();
   }, []);
 
-  // 2. LISTEN FOR AUTH CHANGES
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setIsAdmin(userData.role === "admin");
+        }
+      } else {
+        setIsAdmin(false);
+      }
       setAuthLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  // 3. LOGOUT HANDLER
+  // Fetch user's saved favorites from Firestore on login
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (user) {
+        try {
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            // Update state with what is actually in the database
+            setFavorites(docSnap.data().favoriteIds || []);
+          }
+        } catch (error) {
+          console.error("Error fetching favorites:", error);
+        }
+      } else {
+        setFavorites([]);
+      }
+    };
+    fetchFavorites();
+  }, [user]);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -70,43 +127,48 @@ const App = () => {
     }
   };
 
-  // 4. CART LOCALSTORAGE SYNC
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product, selectedSize = null, selectedColor = null, quantity = 1) => {
-    const existingItemIndex = cartItems.findIndex(
-      (item) =>
-        item.id === product.id &&
-        item.selectedSize === selectedSize &&
-        item.selectedColor === selectedColor
-    );
+  const addToCart = (product, selectedSize, selectedColor, quantityToAdd) => {
+    setCartItems((prevCart) => {
+      const amount = parseInt(quantityToAdd, 10) || 1;
+      const existingItemIndex = prevCart.findIndex(
+        (item) => item.id.toString() === product.id.toString(),
+      );
 
-    if (existingItemIndex >= 0) {
-      const updatedCart = [...cartItems];
-      updatedCart[existingItemIndex].quantity += quantity;
-      setCartItems(updatedCart);
-    } else {
-      const newItem = {
-        ...product,
-        selectedSize,
-        selectedColor,
-        quantity,
-        cartId: Date.now() + Math.random(),
-      };
-      setCartItems([...cartItems, newItem]);
-    }
+      if (existingItemIndex > -1) {
+        const updatedCart = [...prevCart];
+        // Use 'qty' consistently
+        const currentQty =
+          parseInt(updatedCart[existingItemIndex].qty, 10) || 0;
+        updatedCart[existingItemIndex] = {
+          ...updatedCart[existingItemIndex],
+          qty: currentQty + amount,
+        };
+        return updatedCart;
+      }
+
+      // New item: Add a cartId so handleUpdateItem can find it later
+      return [
+        ...prevCart,
+        { ...product, qty: amount, cartId: Date.now() + Math.random() },
+      ];
+    });
   };
 
-  const handleUpdateItem = (cartId, quantity) => {
-    if (quantity <= 0) {
+  // 2. Updated handleUpdateItem: Must use 'qty' to match addToCart
+  const handleUpdateItem = (cartId, newQty) => {
+    if (newQty <= 0) {
       handleRemoveItem(cartId);
       return;
     }
-    setCartItems(cartItems.map((item) =>
-      item.cartId === cartId ? { ...item, quantity } : item
-    ));
+    setCartItems((prevCart) =>
+      prevCart.map((item) =>
+        item.cartId === cartId ? { ...item, qty: parseInt(newQty, 10) } : item,
+      ),
+    );
   };
 
   const handleRemoveItem = (cartId) => {
@@ -116,59 +178,93 @@ const App = () => {
   const clearCart = () => setCartItems([]);
 
   if (authLoading || productsLoading) {
-    return  <div className="spinner-container">
-      <div className="spinner">
-        <div></div> <div></div> <div></div> <div></div> <div></div>
-        <div></div> <div></div> <div></div> <div></div> <div></div>
+    return (
+      <div className="spinner-container">
+        <div className="spinner">
+          <div></div> <div></div> <div></div> <div></div> <div></div>
+          <div></div> <div></div> <div></div> <div></div> <div></div>
+        </div>
+        <p>TDStore</p>
       </div>
-      <p>TDStore</p>
-    </div>
+    );
   }
 
-  const ProtectedAdmin = ({ user, children }) => {
-  const ADMIN_EMAIL = "preciousope000@gmai.com";
-  
-  if (!user || user.email !== ADMIN_EMAIL) {
-    return <div style={{ marginTop: '100px', textAlign: 'center' }}>
-      <h2>Access Denied</h2>
-      <p>You do not have permission to view this page.</p>
-    </div>;
-  }
-  return children;
-};
+  const ProtectedAdmin = ({ isAdmin, children }) => {
+    if (!isAdmin) {
+      return (
+        <div style={{ marginTop: "100px", textAlign: "center" }}>
+          <h2>Access Denied</h2>
+          <p>You do not have permission to view this page.</p>
+        </div>
+      );
+    }
+    return children;
+  };
 
   return (
     <>
-      {/* 5. PASS ALL PRODUCTS TO NAVBAR FOR SEARCH DROPDOWN */}
-      <Navbar 
-        cartItems={cartItems} 
-        user={user} 
-        onLogout={handleLogout} 
-        products={allProducts} 
+      <Navbar
+        cartCount={cartItems.reduce((acc, item) => acc + (item.qty || 0), 0)}
+        cartItems={cartItems}
+        user={user}
+        favorites={favorites}
+        onLogout={handleLogout}
+        products={allProducts}
       />
 
       <Routes>
         {/* 6. PASS PRODUCTS TO PAGES */}
-        <Route path="/" element={<Home onAddToCart={addToCart} products={allProducts} />} />
-        
+        <Route
+          path="/"
+          element={
+            <Home
+              onAddToCart={addToCart}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              products={allProducts}
+            />
+          }
+        />
+
         <Route
           path="/products"
-          element={<Products onAddToCart={addToCart} products={allProducts} />}
+          element={
+            <Products
+              onAddToCart={addToCart}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              products={allProducts}
+            />
+          }
         />
-        
+
         <Route
           path="/product/:productId"
-          element={<ProductDetail onAddToCart={addToCart} products={allProducts} />}
+          element={
+            <ProductDetail
+              onAddToCart={addToCart}
+              favorites={favorites} // Add this
+              onToggleFavorite={toggleFavorite}
+              products={allProducts}
+            />
+          }
         />
-        
+
         <Route
           path="/categories"
-          element={<Categories onAddToCart={addToCart} products={allProducts} />}
+          element={
+            <Categories
+              onAddToCart={addToCart}
+              favorites={favorites} // The baton!
+              onToggleFavorite={toggleFavorite}
+              products={allProducts}
+            />
+          }
         />
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        
+
         <Route
           path="/profile"
           element={
@@ -177,10 +273,10 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        
+
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
-        
+
         <Route
           path="/cart"
           element={
@@ -193,14 +289,31 @@ const App = () => {
           }
         />
 
-        <Route 
-  path="/admin" 
-  element={
-    <ProtectedAdmin user={user}>
-      <AdminDashboard products={allProducts} />
-    </ProtectedAdmin>
-  } 
-/>
+        <Route
+          path="/favorites"
+          element={
+            <Favorites
+              user={user}
+              allProducts={allProducts}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              onAddToCart={addToCart}
+              cartItems={cartItems}
+              onLogout={handleLogout}
+            />
+          }
+        />
+
+        <Route path="/about" element={<About />} />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdmin isAdmin={isAdmin}>
+              <AdminDashboard products={allProducts} />
+            </ProtectedAdmin>
+          }
+        />
       </Routes>
     </>
   );
