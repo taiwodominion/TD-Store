@@ -1,0 +1,127 @@
+.success-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--admin-bg);
+  padding: 100px 20px 20px 20px;
+}
+
+.success-card {
+  background: white;
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: #e8fff3;
+  color: #50cd89;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.success-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.success-title {
+  color: var(--text-main);
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.success-message {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.order-details {
+  background: #f9fafb;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-continue-shopping {
+  background: var(--admin-blue);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.btn-print {
+  background: transparent;
+  border: 1px solid #ebedf3;
+  color: var(--text-main);
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.success-note {
+  margin-top: 25px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+.order-details-box {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.btn-download {
+  background: #1b1b28;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* IMPORTANT: Hide buttons when capturing the image for the PDF */
+@media screen {
+  /* This ensures our buttons look good on the website */
+}
+
+/* This is a trick: We can tell html2canvas to ignore elements with this class */
+.no-print {
+  display: none !important;
+}

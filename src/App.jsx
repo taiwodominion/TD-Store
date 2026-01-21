@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { collection, getDocs, setDoc, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc, getDoc, addDoc } from "firebase/firestore";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -18,8 +18,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Cart from "./pages/Cart";
 import Favorites from "./pages/Favorites";
 import About from "./pages/About";
+import Checkout from "./pages/Checkout";
+import Toast from "./components/Toast";
+import OrderSuccess from "./components/OrderSuccess";
 
 import AdminDashboard from "./admin/AdminDashboard";
+import AdminOrders from "./admin/AdminOrders";
 
 import "./css/App.css";
 
@@ -37,9 +41,21 @@ const App = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const navigate = useNavigate();
+
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
+
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+  };
+
   const toggleFavorite = async (productId) => {
     if (!user) {
-      alert("Please login to save favorites!");
+      showToast("Please login to save favorites!", "error");
       return;
     }
 
@@ -58,8 +74,15 @@ const App = () => {
         },
         { merge: true },
       );
+
+      if (!isLiked) {
+        showToast("Added to Favorites!");
+      } else {
+        showToast("Removed from Favorites", "success");
+      }
     } catch (error) {
       console.error("Error syncing favorites:", error);
+      showToast("Failed to sync favorites", "error");
     }
   };
 
@@ -201,6 +224,62 @@ const App = () => {
     return children;
   };
 
+  // const handlePlaceOrder = async (customerData) => {
+  //   if (cartItems.length === 0) {
+  //     alert("Your cart is empty");
+  //     return;
+  //   }
+
+  //   try {
+  //     console.log("Saving order for:", customerData);
+
+  //     setCartItems([]);
+
+  //     navigate("/order-success", {
+  //       state: { orderId: "TD-" + Math.random().toString(36).substr(2, 9) },
+  //     });
+  //   } catch (error) {
+  //     console.error("Order Error:", error);
+  //   }
+  // };
+
+  const handlePlaceOrder = async (customerData) => {
+    if (cartItems.length === 0) return;
+
+    try {
+      // 1. Calculate the final total (same logic as your checkout card)
+      const subtotal = cartItems.reduce(
+        (acc, item) => acc + item.price * item.qty,
+        0,
+      );
+      const tax = subtotal * 0.08;
+      const shipping = subtotal > 100 ? 0 : 15;
+      const finalTotal = subtotal + tax + shipping;
+
+      // 2. Save the order to Firestore
+      const orderRef = await addDoc(collection(db, "orders"), {
+        customer: customerData,
+        items: cartItems,
+        totalAmount: finalTotal,
+        status: "Pending", // Default status for Admin to see
+        createdAt: new Date(),
+        orderNumber: "TD-" + Math.floor(Math.random() * 1000000),
+      });
+
+      // 3. Clear the Cart
+      setCartItems([]);
+      localStorage.removeItem("cart");
+
+      // 4. Navigate to Success Page with the Order ID from Firebase
+      navigate("/order-success", {
+        state: { orderId: orderRef.id },
+      });
+    } catch (error) {
+      console.error("Error saving order:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <>
       <Navbar
@@ -305,12 +384,28 @@ const App = () => {
         />
 
         <Route path="/about" element={<About />} />
+        <Route
+          path="/checkout"
+          element={
+            <Checkout cartItems={cartItems} onPlaceOrder={handlePlaceOrder} />
+          }
+        />
+
+        <Route path="/order-success" element={<OrderSuccess />} />
 
         <Route
           path="/admin"
           element={
             <ProtectedAdmin isAdmin={isAdmin}>
-              <AdminDashboard products={allProducts} />
+              <AdminDashboard products={allProducts} showToast={showToast} />
+            </ProtectedAdmin>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedAdmin isAdmin={isAdmin}>
+              <AdminOrders />
             </ProtectedAdmin>
           }
         />

@@ -33,7 +33,7 @@ function AddProduct() {
         onChange={(e) => setName(e.target.value)} 
         placeholder="Product Name" 
       />
-      <button type="submit">Add Product</button>
+      <button type="submit">Add  This Product</button>
     </form>
   );
 }
