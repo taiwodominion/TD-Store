@@ -1,16 +1,28 @@
-# React + Vite
+# TD-STORE | Minimalist E-Commerce
+A high-performance, touch-optimized e-commerce frontend built with React.js and Vanilla CSS3. Focused on intentional consumption, clean aesthetics, and fluid motion.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Vision
+Built under the creative direction of Taiwo Dominion, TD-Store is a "vibe-coded" project that prioritizes modular architecture and seamless user experience without the overhead of heavy CSS frameworks.
 
-Currently, two official plugins are available:
+## 🛠️ Tech Stack
+* **Frontend:** React.js (Hooks, Context API)
+* **Styling:** Vanilla CSS3 (Modular / Variable-based)
+* **Animations:** GSAP (ScrollTrigger, Context)
+* **Backend:** Firebase (Auth, Firestore)
+* **Icons:** Lucide-React & FontAwesome
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Key Features
+* **Global State Management:** Centralized AppContext for Cart, Favorites, and User Auth.
+* **Fluid Animations:** High-end reveal effects and transitions using GSAP.
+* **Responsive Architecture:** Mobile-first, touch-optimized layouts.
+* **Dynamic Product Discovery:** Sophisticated product filtering and detail views.
+* **Global Notification System:** Custom-built Toast system for real-time user feedback.
 
-## React Compiler
+## 📂 Project Structure
+Each component is housed in `src/components/` with its corresponding styles in `src/css/` to ensure a clean, maintainable "Component-CSS" relationship.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🏁 Getting Started
+1. Clone the repository.
+2. Run `npm install`.
+3. Set up your `.env` with Firebase credentials.
+4. Run `npm run dev` to start the development server.

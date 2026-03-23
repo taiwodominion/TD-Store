@@ -1,70 +1,224 @@
 .all-products-page {
-  padding-top: 100px;
-  padding: 100px 1rem 2rem;
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  padding-top: 140px;
 }
 
-.all-products-header {
+.products-viewport {
+  width: 92%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 50px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #111;
+}
+
+.editorial-title {
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -4px;
+  display: flex;
+  gap: 12px;
+  line-height: 1;
+}
+
+.accent-serif {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+  -webkit-text-stroke: 1px #111;
+  color: transparent;
+  letter-spacing: 0;
+}
+
+.header-meta {
+  text-align: right;
+}
+
+.count-badge {
+  font-size: 3.5rem;
+  font-weight: 800;
+  font-family: "Playfair Display", serif;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* .utility-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 60px;
+} */
+
+.filter-group {
+  display: flex;
+  gap: 12px;
 }
 
-.all-products-header h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  font-family: 'Bitcount Grid Single', sans-serif;
-  color: #222;
-}
-
-.sort-input {
-  max-width: 200px;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #d0d0d0;
-  border-radius: 10px;
-  background-color: #fff;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+.filter-pill {
+  background: none;
+  border: 1px solid #eee;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
   cursor: pointer;
+  transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.sort-input:hover {
-  border-color: #999;
+.filter-pill.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  transform: scale(1.05);
 }
 
+.filter-pill:hover:not(.active) {
+  border-color: #111;
+}
+
+.custom-dropdown-container {
+  position: relative;
+  min-width: 220px;
+}
+
+.dropdown-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #f8f8f8;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown-trigger .rotate {
+  transform: rotate(180deg);
+}
+
+/* .dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  padding: 8px;
+  z-index: 100;
+} */
+
+.dropdown-item {
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-item.selected {
+  background: #111;
+  color: #fff;
+}
+
+/* .all-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  min-height: 400px;
+} */
+
+/* 1. Ensure the container of the dropdown is at the top of the stack */
+.utility-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
+  position: relative; /* Added */
+  z-index: 1000;      /* Added - ensures it stays above the grid */
+}
+
+/* 2. Increase the dropdown menu z-index to a high enough number */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  padding: 8px;
+  z-index: 2000; /* Increased from 100 to 2000 */
+}
+
+/* 3. Ensure the grid doesn't create a new stacking context that fights the header */
 .all-products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: 25px;
+  min-height: 400px;
+  position: relative; /* Ensure it respects Z-index hierarchy */
+  z-index: 1;         /* Keep it low */
 }
 
-@media (max-width: 1024px) {
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+  font-weight: 600;
+}
+
+@media (max-width: 1100px) {
   .all-products-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
+  .header-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .utility-bar {
+    flex-direction: column-reverse;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .custom-dropdown-container {
+    width: 100%;
+  }
   .all-products-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
-}
-
-@media (max-width: 480px) {
-  .all-products-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .all-products-header {
-    display: block;
-  }
-}
-
-.all-products-grid > * {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
 }

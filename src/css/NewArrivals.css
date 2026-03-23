@@ -1,127 +1,150 @@
-.new-arrivals-section {
-  padding: 2rem 1rem 3rem;
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
+
+.arrivals-viewport {
+  padding: 100px 5%;
   background: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.arrivals-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.arrivals-header {
   text-align: center;
+  margin-bottom: 80px;
 }
 
-.new-arrivals-header h2 {
-  font-size: 1.8rem;
-  font-family: 'Bitcount Grid Single', sans-serif;
-  font-weight: 700;
+.arrivals-pre {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 5px;
+  color: #3b82f6;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.arrivals-main-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -2px;
   color: #111;
+  margin: 0;
 }
 
-.new-arrivals-header p {
-  font-size: 1rem;
+.italic-serif {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.arrivals-subtitle {
+  font-size: 1.1rem;
   color: #666;
-  margin-top: 0.4rem;
-  margin-bottom: 1.5rem;
+  max-width: 500px;
+  margin: 20px auto 0;
+  line-height: 1.6;
 }
 
-.products-container {
+.arrivals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.2rem;
-  padding: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px 30px;
 }
 
 .product-card {
-  background: #f4f5f7;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  padding: 1rem 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
-  cursor: pointer;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  transition: all 0.4s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
-
-.like-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #ebebebff;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  padding: 3px;
-  font-size: 1.2rem;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.like-icon.liked {
-  color: #ff4b5c;
-  transform: scale(1.2);
+  transform: translateY(-8px);
 }
 
 .product-card img {
   width: 100%;
-  height: 170px;
+  aspect-ratio: 3/4;
   object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: #f7f7f7;
 }
 
 .product-title {
-  font-weight: 600;
   font-size: 1rem;
-  color: #222;
-  margin-bottom: 0.3rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
 }
 
 .product-bottom {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .product-price {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #111;
 }
 
 .add-btn {
-  background: #222;
-  color: #fff;
-  border: none;
-  width: 34px;
-  height: 34px;
+  background: #111 !important;
+  width: 40px !important;
+  height: 40px !important;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s cubic-bezier(0.2, 1, 0.3, 1) !important;
 }
 
 .add-btn:hover {
-  background: #000;
+  background: #3b82f6 !important;
+  transform: scale(1.1);
 }
 
-@media (max-width: 600px) {
-  .products-container {
+.like-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  padding: 8px;
+  border-radius: 50%;
+  color: #111;
+  z-index: 5;
+  transition: all 0.3s ease;
+}
+
+.like-icon.liked {
+  background: #ff4b5c;
+  color: #fff;
+}
+
+@media (max-width: 1200px) {
+  .arrivals-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 850px) {
+  .arrivals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .arrivals-grid {
     grid-template-columns: 1fr;
-    padding: 10px;
-    gap: 0.9rem;
+    gap: 50px;
   }
 
-  .new-arrivals-section {
-    padding: 3rem 10px;
-  }
-
-  .product-card {
-    padding: 0.8rem;
-  }
-
-  .product-card img {
-    height: 130px;
+  .arrivals-main-title {
+    font-size: 2.2rem;
   }
 }

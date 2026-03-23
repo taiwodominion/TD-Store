@@ -1,4 +1,3 @@
-/* RecentlyViewed.css */
 .recent-section {
   padding: 80px 20px;
   border-top: 1px solid #eee;
@@ -10,5 +9,13 @@
   gap: 20px;
 }
 
-@media (max-width: 1024px) { .recent-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .recent-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) {
+  .recent-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .recent-grid {
+    grid-template-columns: 1fr;
+  }
+}

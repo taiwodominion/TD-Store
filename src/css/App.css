@@ -1,6 +1,9 @@
 :root {
-    font-family: 'Inter', -apple-system, sans-serif;
-    --primary-accent: #4facfe;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+  --primary-accent: #4facfe;
   --dark-bg: #1a1a1a;
   --input-border: #e1e4e8;
   --text-main: #2d3436;
@@ -8,24 +11,29 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: inherit;
-    scroll-behavior: smooth;
+  font-family: inherit;
+  scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .error-alert {
-    position: absolute;
-    top: 15%;
-    right: 5%;
-    background: red;
-    color: white;
-    padding: 10px;
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  background: red;
+  color: white;
+  padding: 10px;
 }
-
 
 .spinner-container {
   position: fixed;
@@ -53,9 +61,10 @@ body::-webkit-scrollbar {
 .spinner div {
   position: absolute;
   width: 2px;
-  height: 10px; 
+  height: 10px;
   background: #000000;
-  transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
+  transform: rotate(calc(var(--rotation) * 1deg))
+    translate(0, calc(var(--translation) * 1%));
   animation: spinner-fzua35 1s calc(var(--delay) * 1s) infinite ease;
 }
 
@@ -120,11 +129,93 @@ body::-webkit-scrollbar {
 }
 
 @keyframes spinner-fzua35 {
-  0%, 10%, 20%, 30%, 50%, 60%, 70%, 80%, 90%, 100% {
-    transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
+  0%,
+  10%,
+  20%,
+  30%,
+  50%,
+  60%,
+  70%,
+  80%,
+  90%,
+  100% {
+    transform: rotate(calc(var(--rotation) * 1deg))
+      translate(0, calc(var(--translation) * 1%));
   }
 
   50% {
-    transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1.5%));
+    transform: rotate(calc(var(--rotation) * 1deg))
+      translate(0, calc(var(--translation) * 1.5%));
   }
+}
+
+@media (max-width: 768px) {
+  .products-container,
+  .featured-grid,
+  .arrivals-grid,
+  .products-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+    padding: 10px !important;
+  }
+
+  .product-card {
+    padding: 8px !important;
+  }
+}
+
+.access-denied-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 20px;
+  background-color: #fcfcfc;
+}
+
+.access-denied-card {
+  background: white;
+  padding: 60px 40px;
+  border-radius: 32px;
+  text-align: center;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+}
+
+.access-denied-card h2 {
+  margin: 20px 0 10px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+}
+
+.access-denied-card p {
+  color: #777;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-back:hover {
+  background: #333;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }

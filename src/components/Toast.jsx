@@ -1,16 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useApp } from "../contexts/AppContext";
+import { X, CheckCircle, AlertCircle } from "lucide-react";
 import "../css/Toast.css";
 
-const Toast = ({ message, type = "success", onClose }) => {
-  useEffect(() => {
-    const timer = setTimeout(onClose, 3000); // Auto-close after 3s
-    return () => clearTimeout(timer);
-  }, [onClose]);
+const Toast = () => {
+  const { toast, setToast } = useApp();
+
+  if (!toast.show) return null;
 
   return (
-    <div className={`toast-container ${type}`}>
-      <p>{message}</p>
-      <button onClick={onClose}>&times;</button>
+    <div className={`global-toast ${toast.type}`}>
+      <div className="toast-content">
+        {toast.type === "success" ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+        <span className="toast-msg">{toast.message}</span>
+      </div>
+      <button 
+        className="toast-close" 
+        onClick={() => setToast({ ...toast, show: false })}
+      >
+        <X size={16} />
+      </button>
     </div>
   );
 };

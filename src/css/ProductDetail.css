@@ -2,7 +2,7 @@
   max-width: 1300px;
   margin: 120px auto 60px;
   padding: 0 40px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .pd-nav {
@@ -25,13 +25,20 @@
   font-size: 0.8rem;
 }
 
+.pd-category-label {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  color: #888;
+  font-weight: 600;
+}
+
 .pd-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 80px;
 }
 
-/* Gallery Style */
 .pd-main-frame {
   background: #f9f9f9;
   border-radius: 30px;
@@ -45,6 +52,19 @@
   height: 100%;
   object-fit: contain;
   mix-blend-mode: multiply;
+}
+
+.pd-sale-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #000;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .pd-thumbnails {
@@ -69,7 +89,6 @@
   transform: scale(1.05);
 }
 
-/* Detail Styling */
 .pd-title-row {
   display: flex;
   justify-content: space-between;
@@ -92,6 +111,9 @@
   border-radius: 50%;
   cursor: pointer;
   transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pd-wishlist.active {
@@ -117,6 +139,31 @@
   color: #aaa;
 }
 
+.pd-rating-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+}
+
+.stars .filled {
+  color: #f1c40f;
+}
+
+.stars .empty {
+  color: #ddd;
+}
+
+.review-count {
+  font-size: 0.9rem;
+  color: #888;
+}
+
 .pd-desc {
   color: #555;
   line-height: 1.8;
@@ -124,7 +171,6 @@
   margin: 30px 0;
 }
 
-/* Interaction Zone */
 .pd-action-box {
   background: #fafafa;
   padding: 30px;
@@ -148,6 +194,15 @@
   width: 40px;
   height: 40px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-quantity-control span {
+  width: 30px;
+  text-align: center;
+  font-weight: 700;
 }
 
 .pd-cart-btn {
@@ -163,6 +218,11 @@
   justify-content: center;
   gap: 12px;
   transition: 0.3s;
+}
+
+.pd-cart-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 .pd-cart-btn.success {
@@ -185,8 +245,16 @@
   color: #777;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
-  .pd-grid { grid-template-columns: 1fr; gap: 40px; }
-  .pd-title-row h1 { font-size: 2rem; }
+  .pd-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .pd-title-row h1 {
+    font-size: 2rem;
+  }
+  .pd-wrapper {
+    padding: 0 20px;
+    margin-top: 80px;
+  }
 }

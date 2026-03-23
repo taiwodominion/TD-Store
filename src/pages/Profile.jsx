@@ -1,12 +1,18 @@
-import React from 'react'
-import UserProfile from '../components/UserProfile'
+import { useApp } from "../contexts/AppContext";
+import UserProfile from "../components/UserProfile"
 
-const Profile = ({user}) => {
+const Profile = () => {
+  const { user, allProducts, favorites, toggleFavorite, addToCart } = useApp();
+
   return (
-    <>
-    <UserProfile user={user} />
-    </>
-  )
-}
+    <UserProfile 
+      user={user} 
+      allProducts={allProducts} 
+      favorites={favorites} 
+      toggleFavorite={toggleFavorite} 
+      onAddToCart={addToCart} 
+    />
+  );
+};
 
-export default Profile
+export default Profile;

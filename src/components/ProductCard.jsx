@@ -1,16 +1,8 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { Heart, ShoppingBag } from "lucide-react";
 import "../css/ProductCard.css";
 
-/**
- * ProductCard Component
- * @param {Object} product - The product data object
- * @param {Function} onAddToCart - Function to handle adding items to cart
- * @param {Array} favorites - Array of product IDs currently liked by the user
- * @param {Function} onToggleFavorite - Global function from App.jsx to handle liking/unliking
- */
 const ProductCard = ({ 
   product, 
   onAddToCart, 
@@ -18,18 +10,12 @@ const ProductCard = ({
   onToggleFavorite 
 }) => {
   const navigate = useNavigate();
-
-  // This determine if this product is liked by checking the global favorites array
   const isLiked = favorites.includes(product.id);
 
-  // This Handle the like button click
   const toggleLike = (e) => {
     e.stopPropagation(); 
-    
     if (typeof onToggleFavorite === "function") {
       onToggleFavorite(product.id);
-    } else {
-      console.error("onToggleFavorite prop was not passed to ProductCard");
     }
   };
 
@@ -44,31 +30,33 @@ const ProductCard = ({
   };
 
   return (
-    <div className="product-card" onClick={handleCardClick}>
-      <div className="like-icon-container" onClick={toggleLike}>
-        <FontAwesomeIcon
-          icon={faHeart}
-          className={`like-icon ${isLiked ? "liked" : ""}`}
-        />
-      </div>
-
-      <div className="product-image">
-        <img src={product.image} alt={product.name} />
-      </div>
-
-      <div className="product-info">
-        <h3 className="product-title">{product.name}</h3>
+    <div className="item-card" onClick={handleCardClick}>
+      <div className="item-visual-wrapper">
+        {product.onSale && <div className="product-badge sale">Sale</div>}
+        {product.isNew && <div className="product-badge new">New</div>}
+        {product.stock < 5 && product.stock > 0 && <div className="product-badge limited">Low Stock</div>}
         
-        <div className="product-bottom">
-          <span className="product-price">${product.price}</span>
-          <button 
-            className="add-btn" 
-            onClick={handleAddToCart}
-            aria-label="Add to cart"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
+        <button 
+          className={`item-wish-btn ${isLiked ? "active" : ""}`} 
+          onClick={toggleLike}
+        >
+          <Heart size={18} fill={isLiked ? "#ff4b5c" : "none"} />
+        </button>
+        
+        <img src={product.image} alt={product.name} className="item-img" />
+        
+        <button className="item-quick-add" onClick={handleAddToCart}>
+          <ShoppingBag size={16} />
+          <span>Quick Add</span>
+        </button>
+      </div>
+
+      <div className="item-details">
+        <div className="item-meta">
+          <h3 className="item-name">{product.name}</h3>
+          <span className="item-price">${product.price}</span>
         </div>
+        <p className="item-category">{product.category || "Collection"}</p>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useApp } from "../contexts/AppContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -7,21 +8,16 @@ import {
   faShoppingCart,
   faStar,
   faTruck,
-  faShieldAlt,
   faUndo,
   faMinus,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/ProductDetail.css";
 
-export default function ProductDetail({
-  products = [],
-  onAddToCart,
-  favorites = [],
-  onToggleFavorite,
-}) {
+export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
+  const { allProducts, favorites, toggleFavorite, addToCart } = useApp();
 
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -29,20 +25,19 @@ export default function ProductDetail({
   const [loading, setLoading] = useState(true);
   const [addedToCart, setAddedToCart] = useState(false);
 
-  // This finds Product Safely
   const foundProduct = useMemo(
-    () => products.find((p) => p?.id?.toString() === productId?.toString()),
-    [productId, products],
+    () => allProducts.find((p) => p?.id?.toString() === productId?.toString()),
+    [productId, allProducts],
   );
 
   useEffect(() => {
     if (foundProduct) {
       setProduct(foundProduct);
       setLoading(false);
-    } else if (products.length > 0) {
+    } else if (allProducts.length > 0) {
       setLoading(false);
     }
-  }, [foundProduct, products]);
+  }, [foundProduct, allProducts]);
 
   const isLiked = useMemo(() => {
     if (!favorites || !product) return false;
@@ -61,10 +56,10 @@ export default function ProductDetail({
 
   const handleAddToCart = useCallback(() => {
     if (!product || !product.inStock) return;
-    onAddToCart(product, null, null, quantity);
+    addToCart(product, null, null, quantity);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 3000);
-  }, [product, quantity, onAddToCart]);
+  }, [product, quantity, addToCart]);
 
   if (loading) return <div className="detail-loader">Loading Product...</div>;
   if (!product)
@@ -111,7 +106,7 @@ export default function ProductDetail({
             <h1>{product.name}</h1>
             <button
               className={`pd-wishlist ${isLiked ? "active" : ""}`}
-              onClick={() => onToggleFavorite(product.id)} // This passes only product.id, not the whole product
+              onClick={() => toggleFavorite(product.id)}
             >
               <FontAwesomeIcon icon={faHeart} />
             </button>

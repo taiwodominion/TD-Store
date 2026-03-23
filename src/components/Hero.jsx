@@ -1,110 +1,132 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import heroImage1 from '../assets/rafaella.jpg';
-import heroImage2 from '../assets/freestocks.jpg';
-import heroImage3 from '../assets/clark-street.jpg';
-import '../css/Hero.css';
+import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { MoveRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "../css/Hero.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const heroSlides = [
-    {
-      id: 1,
-      title: "Summer Collection",
-      subtitle: "DISCOVER THE TRENDS",
-      description: "Shop our curated collection of summer essentials for the modern wardrobe.",
-      image: heroImage1,
-      buttonText: "Shop Now",
-      buttonLink: "/products"
-    },
-    {
-      id: 2,
-      title: "New Arrivals",
-      subtitle: "FRESH STYLES JUST IN",
-      description: "Be the first to get your hands on our newest high-quality products.",
-      image: heroImage2,
-      buttonText: "Explore",
-      buttonLink: "/products"
-    },
-    {
-      id: 3,
-      title: "Special Offers",
-      subtitle: "LIMITED TIME ONLY",
-      description: "Up to 50% off on selected items. Limited time deals on your favorites.",
-      image: heroImage3,
-      buttonText: "Shop Sale",
-      buttonLink: "/products"
-    }
-  ];
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  }, [heroSlides.length]);
+  const sectionRef = useRef(null);
+  const imageRef = useRef(null);
+  const textRef = useRef(null);
+  const badgeRef = useRef(null);
 
   useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(nextSlide, 6000);
-    return () => clearInterval(interval);
-  }, [nextSlide, isPaused]);
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+
+      tl.from(".hero-statement span", {
+        y: 100,
+        skewY: 7,
+        duration: 1.5,
+        stagger: 0.2,
+        ease: "power4.out",
+      }).from(
+        ".hero-credo, .action-stack, .pre-title",
+        {
+          opacity: 0,
+          y: 30,
+          duration: 1,
+          stagger: 0.1,
+          ease: "power3.out",
+        },
+        "-=1",
+      );
+
+      const isMobile = window.innerWidth < 1100;
+
+      gsap.to(imageRef.current, {
+        yPercent: isMobile ? 10 : 20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.to(textRef.current, {
+        yPercent: isMobile ? -5 : -15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.to(badgeRef.current, {
+        rotation: 360,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="home">
-      {/* Preload images to prevent flicker */}
-      <div style={{ display: 'none' }}>
-        {heroSlides.map(s => <img key={s.id} src={s.image} alt="" />)}
-      </div>
+    <section className="hero-viewport" ref={sectionRef}>
+      <div className="hero-content-grid">
+        <div className="editorial-side" ref={textRef}>
+          <span className="pre-title">EST. 2026 — VOL. 01</span>
 
-      <section 
-        className="hero"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <div className="hero-slider">
-          {heroSlides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-            >
-              <div 
-                className="hero-image-bg" 
-                style={{ backgroundImage: `url(${slide.image})` }}
-              />
-              <div className="hero-overlay">
-                <div className="container">
-                  <div className="hero-content">
-                    <span className="hero-top-subtitle animate-item">{slide.subtitle}</span>
-                    <h1 className="hero-title animate-item">
-                      {slide.title}
-                    </h1>
-                    <p className="hero-description animate-item">
-                      {slide.description}
-                    </p>
-                    <div className="animate-item">
-                      <Link to={slide.buttonLink} className="hero-btn">
-                        <span>{slide.buttonText}</span>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <h1 className="hero-statement">
+            <div className="overflow-hide">
+              <span>The Art of</span>
             </div>
-          ))}
+            <div className="overflow-hide">
+              <span className="outline-text">Intentional</span>
+            </div>
+            <div className="overflow-hide">
+              <span>Living.</span>
+            </div>
+          </h1>
+
+          <p className="hero-credo">
+            We don't do fast fashion. We do forever pieces. Designed in Lagos,
+            sourced globally, and built for those who value the story behind the
+            stitch.
+          </p>
+
+          <div className="action-stack">
+            <Link to="/products" className="magnetic-btn">
+              <span>View Collection</span>
+              <MoveRight size={20} />
+            </Link>
+            <Link to="/categories" className="ghost-link">
+              Our Philosophy
+            </Link>
+          </div>
         </div>
-        
-        <div className="hero-indicators">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              className={`indicator ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => setCurrentSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+
+        <div className="hero-visual-side">
+          <div className="image-stack">
+            <div className="main-frame">
+              <img
+                ref={imageRef}
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2040"
+                alt="Editorial"
+                className="parallax-img"
+              />
+            </div>
+
+            <div className="overlay-badge" ref={badgeRef}>
+              <p>PREMIUM • QUALITY • DESIGN • </p>
+            </div>
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+      <div className="bg-number">01</div>
+    </section>
   );
 };
 

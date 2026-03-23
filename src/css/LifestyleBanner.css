@@ -1,64 +1,141 @@
-/* LifestyleBanner.css */
-.lifestyle-section {
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
+
+.lifestyle-viewport {
+  padding: 80px 5%;
+  background: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.lifestyle-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.lifestyle-image-frame {
   position: relative;
-  height: 600px;
+  width: 100%;
+  height: 700px;
+  border-radius: 40px;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  margin: 80px 20px;
-  border-radius: 24px;
-  overflow: hidden;
 }
 
-.lifestyle-image {
+.lifestyle-img {
   position: absolute;
   inset: 0;
-  z-index: 1;
-}
-
-.lifestyle-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-.lifestyle-content {
+.lifestyle-image-frame:hover .lifestyle-img {
+  transform: scale(1.05);
+}
+
+.lifestyle-overlay-content {
   position: relative;
-  z-index: 2;
-  margin-left: 8%;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
+  z-index: 5;
+  margin-left: 6%;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   padding: 60px;
-  max-width: 500px;
-  border-radius: 16px;
+  max-width: 550px;
+  border-radius: 30px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
 }
 
-.lifestyle-tag {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #888;
+.lifestyle-pre {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 5px;
+  color: #3b82f6;
+  display: block;
+  margin-bottom: 20px;
 }
 
-.lifestyle-title {
-  font-size: 2.8rem;
+.lifestyle-main-title {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
   font-weight: 800;
   line-height: 1.1;
-  margin: 15px 0;
+  color: #111;
+  margin-bottom: 25px;
+  letter-spacing: -2px;
 }
 
-.lifestyle-link {
-  display: inline-block;
-  margin-top: 25px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid #000;
+.italic-serif {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.lifestyle-description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 40px;
+}
+
+.lifestyle-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
   text-decoration: none;
-  color: #000;
+  color: #111;
   font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.lifestyle-action span {
+  border-bottom: 2px solid #111;
+  padding-bottom: 4px;
+}
+
+.lifestyle-action:hover {
+  gap: 25px;
+  color: #3b82f6;
+}
+
+.lifestyle-action:hover span {
+  border-color: #3b82f6;
+}
+
+@media (max-width: 1024px) {
+  .lifestyle-image-frame {
+    height: 600px;
+  }
+  .lifestyle-overlay-content {
+    margin-left: 5%;
+    padding: 40px;
+    max-width: 450px;
+  }
 }
 
 @media (max-width: 768px) {
-  .lifestyle-section { margin: 40px 10px; height: 500px; }
-  .lifestyle-content { margin: 0 20px; padding: 30px; }
-  .lifestyle-title { font-size: 2rem; }
+  .lifestyle-viewport {
+    padding: 40px 15px;
+  }
+  .lifestyle-image-frame {
+    height: auto;
+    flex-direction: column;
+    border-radius: 25px;
+  }
+  .lifestyle-img {
+    position: relative;
+    height: 350px;
+  }
+  .lifestyle-overlay-content {
+    margin: -50px 20px 40px;
+    padding: 35px;
+    width: auto;
+    max-width: none;
+    text-align: center;
+  }
+  .lifestyle-action {
+    justify-content: center;
+  }
 }

@@ -1,102 +1,153 @@
-.products-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.2rem;
-  padding: 1.5rem;
-}
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
-.product-card {
-  background: #f4f5f7;
-  border-radius: 18px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  padding: 1rem 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
+.item-card {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
   cursor: pointer;
+  border: 1px solid #f0f0f0;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-.product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+.item-visual-wrapper {
+  position: relative;
+  aspect-ratio: 1 / 1.1;
+  background: #f9f9f9;
+  overflow: hidden;
 }
 
-.like-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #ebebebff;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  padding: 3px;
-  font-size: 1.2rem;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.like-icon.liked {
-  color: #ff4b5c;
-  transform: scale(1.2);
-}
-
-.product-card img {
+.item-img {
   width: 100%;
-  height: 170px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 0.75rem;
+  transition: transform 0.8s ease;
 }
 
-.product-title {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #222;
-  margin-bottom: 0.3rem;
+.item-card:hover .item-img {
+  transform: scale(1.08);
 }
 
-.product-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.product-price {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.add-btn {
-  background: #222;
-  color: #fff;
-  border: none;
-  width: 34px;
-  height: 34px;
+.item-wish-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  color: #111;
+  transition: all 0.3s;
 }
 
-.add-btn:hover {
-  background: #000;
+.item-wish-btn.active {
+  color: #ff4b5c;
 }
 
-@media (max-width: 600px) {
-  .products-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.9rem;
-  }
+.item-wish-btn:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
 
-  .product-card {
-    padding: 0.8rem;
-  }
+.item-quick-add {
+  position: absolute;
+  bottom: -50px;
+  left: 15px;
+  right: 15px;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+  opacity: 0;
+}
 
-  .product-card img {
-    height: 130px;
+.item-card:hover .item-quick-add {
+  bottom: 15px;
+  opacity: 1;
+}
+
+.item-details {
+  padding: 20px;
+}
+
+.item-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 5px;
+}
+
+.item-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  max-width: 70%;
+}
+
+.item-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #3b82f6;
+}
+
+.item-category {
+  font-size: 0.75rem;
+  color: #999;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .item-card {
+    border-radius: 16px;
   }
-} 
+  .item-quick-add {
+    bottom: 10px;
+    opacity: 1;
+    padding: 8px;
+    font-size: 0.75rem;
+  }
+  .item-details {
+    padding: 15px;
+  }
+}
+.product-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 10;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.product-badge.sale {
+  background: #ff4b5c;
+  color: #fff;
+}
+
+.product-badge.new {
+  background: #3b82f6;
+  color: #fff;
+}

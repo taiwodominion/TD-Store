@@ -1,12 +1,12 @@
 import React from 'react'
-import AboutContent from '../components/AboutContent'
+import ResetPasswordForm from '../components/ResetPasswordForm'
 import Footer from '../components/Footer'
 
-const About = () => {
+const ResetPassword = () => {
   return (
     <>
     <main>
-        <AboutContent />
+        <ResetPasswordForm />
     </main>
     <footer>
         <Footer />
@@ -15,4 +15,4 @@ const About = () => {
   )
 }
 
-export default About
+export default ResetPassword

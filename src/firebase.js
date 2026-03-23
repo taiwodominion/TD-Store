@@ -18,8 +18,6 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 
-// Detect auth state changed 
-
 onAuthStateChanged(auth, user => {
   if (user !== null ) {
     console.log('logged in')

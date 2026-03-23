@@ -8,29 +8,35 @@ const Featured = ({ products, onAddToCart, favorites, onToggleFavorite }) => {
 
   useEffect(() => {
     if (products && products.length > 0) {
-      setFeaturedProducts(products.slice(0, 7));
+      setFeaturedProducts(products.slice(0, 6));
     }
   }, [products]);
 
   return (
-    <section className="featured-section">
-      <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">Featured Products</h2>
-          <Link to="/products" className="section-link">
-            View All Products →
+    <section className="featured-viewport">
+      <div className="featured-wrapper">
+        <div className="featured-header">
+          <div className="header-text">
+            <span className="featured-pre">THE CURATED DROP</span>
+            <h2 className="featured-main-title">
+              The <span className="italic-serif">Forever</span> Collection
+            </h2>
+          </div>
+          <Link to="/products" className="featured-action-link">
+            See All Creations <span>→</span>
           </Link>
         </div>
 
-        <div className="products-grid">
+        <div className="featured-masonry">
           {featuredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={onAddToCart}
-              favorites={favorites} // Must pass this
-              onToggleFavorite={onToggleFavorite}
-            />
+            <div key={product.id} className="featured-item-wrapper">
+              <ProductCard
+                product={product}
+                onAddToCart={onAddToCart}
+                favorites={favorites}
+                onToggleFavorite={onToggleFavorite}
+              />
+            </div>
           ))}
         </div>
       </div>

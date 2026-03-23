@@ -1,7 +1,7 @@
 import React from "react";
-// import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import HeroCategories from "../components/HeroCategories";
+import FeaturedCollection from "../components/FeaturedCollection";
 import Featured from "../components/Featured";
 import LifestyleBanner from "../components/LifestyleBanner";
 import NewArrivals from "../components/NewArrivals";
@@ -22,6 +22,7 @@ const Home = ({
     <>
       <main>
         <Hero />
+        <FeaturedCollection />
         <HeroCategories />
         <Featured
           products={products}
