@@ -119,7 +119,7 @@ const AllCategories = () => {
                 </span>
               </div>
 
-              <div className="category-grid">
+              <div className="category-grid grid-3col">
                 {categoryProducts.length > 0 ? (
                   categoryProducts.map((product) => (
                     <div key={product.id} className="product-card-wrapper">

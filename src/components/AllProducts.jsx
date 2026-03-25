@@ -137,7 +137,7 @@ const AllProducts = () => {
           </div>
         </header>
 
-        <div className="all-products-grid">
+        <div className="all-products-grid grid-3col">
           {displayProducts.length > 0 ? (
             displayProducts.map((product) => (
               <div key={product.id} className="product-card-anim">

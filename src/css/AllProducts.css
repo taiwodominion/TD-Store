@@ -64,7 +64,9 @@
   align-items: center;
   margin-bottom: 60px;
   position: relative;
-  z-index: 1000;
+  /* z-index: 1000; */
+  z-index: 10;
+
 }
 
 .filter-group {
@@ -96,7 +98,7 @@
 .custom-dropdown-container {
   position: relative;
   min-width: 220px;
-  z-index: 2001;
+  z-index: 50;
 }
 
 .dropdown-trigger {
@@ -124,7 +126,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   border: 1px solid #eee;
   padding: 8px;
-  z-index: 3000;
+  z-index: 100;
   display: block;
 }
 
@@ -220,4 +222,14 @@
   .editorial-title {
     gap: 8px;
   }
+}
+
+
+.dropdown-trigger .rotate {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.dropdown-trigger svg {
+  transition: transform 0.2s ease;
 }
