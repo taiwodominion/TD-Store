@@ -3,6 +3,7 @@
   min-height: 100vh;
   background: #fff;
   padding-top: 140px;
+  overflow-x: hidden;
 }
 
 .products-viewport {
@@ -57,16 +58,19 @@
   letter-spacing: 1px;
 }
 
-/* .utility-bar {
+.utility-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 60px;
-} */
+  position: relative;
+  z-index: 1000;
+}
 
 .filter-group {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .filter-pill {
@@ -89,13 +93,10 @@
   transform: scale(1.05);
 }
 
-.filter-pill:hover:not(.active) {
-  border-color: #111;
-}
-
 .custom-dropdown-container {
   position: relative;
   min-width: 220px;
+  z-index: 2001;
 }
 
 .dropdown-trigger {
@@ -113,22 +114,19 @@
   transition: 0.2s;
 }
 
-.dropdown-trigger .rotate {
-  transform: rotate(180deg);
-}
-
-/* .dropdown-menu {
+.dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
   width: 100%;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   border: 1px solid #eee;
   padding: 8px;
-  z-index: 100;
-} */
+  z-index: 3000;
+  display: block;
+}
 
 .dropdown-item {
   padding: 12px 16px;
@@ -148,45 +146,20 @@
   color: #fff;
 }
 
-/* .all-products-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 25px;
-  min-height: 400px;
-} */
-
-/* 1. Ensure the container of the dropdown is at the top of the stack */
-.utility-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 60px;
-  position: relative; /* Added */
-  z-index: 1000;      /* Added - ensures it stays above the grid */
-}
-
-/* 2. Increase the dropdown menu z-index to a high enough number */
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 100%;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eee;
-  padding: 8px;
-  z-index: 2000; /* Increased from 100 to 2000 */
-}
-
-/* 3. Ensure the grid doesn't create a new stacking context that fights the header */
 .all-products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
   min-height: 400px;
-  position: relative; /* Ensure it respects Z-index hierarchy */
-  z-index: 1;         /* Keep it low */
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.product-card-anim {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .empty-state {
@@ -205,20 +178,46 @@
 }
 
 @media (max-width: 768px) {
+  .all-products-page {
+    padding-top: 100px;
+  }
   .header-main {
     flex-direction: column;
     align-items: flex-start;
+    gap: 20px;
   }
   .utility-bar {
     flex-direction: column-reverse;
     gap: 20px;
     align-items: flex-start;
+    margin-bottom: 40px;
   }
   .custom-dropdown-container {
     width: 100%;
+    min-width: unset;
   }
   .all-products-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 15px;
+    padding: 0;
+  }
+  .filter-group {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .filter-pill {
+    padding: 8px 16px;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .all-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .editorial-title {
+    gap: 8px;
   }
 }

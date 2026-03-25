@@ -105,6 +105,12 @@ const Navbar = () => {
           <div
             className={`nav-links ${isMobileMenuOpen ? "mobile-active" : ""}`}
           >
+            <button
+              className="mobile-close"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <X size={24} />
+            </button>
             <NavLink
               to="/products"
               className="nav-item"
@@ -133,6 +139,12 @@ const Navbar = () => {
             >
               Contact
             </NavLink>
+            {isMobileMenuOpen && (
+              <div
+                className="nav-backdrop"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+            )}
           </div>
         </div>
 

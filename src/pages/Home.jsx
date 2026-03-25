@@ -9,9 +9,11 @@ import Testimonials from "../components/Testimonials";
 import RecentlyViewed from "../components/RecentlyViewed";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
+import { useApp } from "../contexts/AppContext";
 
 const Home = ({
   products,
+  allProducts,
   onAddToCart,
   cartItems,
   user,
@@ -24,21 +26,18 @@ const Home = ({
         <Hero />
         <FeaturedCollection />
         <HeroCategories />
-        <Featured
-          products={products}
-          onAddToCart={onAddToCart}
-          favorites={favorites}
-          onToggleFavorite={onToggleFavorite}
-        />
+        <Featured />
         <LifestyleBanner />
         <NewArrivals
-          products={products}
+          allProducts={allProducts}
           onAddToCart={onAddToCart}
           favorites={favorites}
           onToggleFavorite={onToggleFavorite}
         />
         <Testimonials />
+
         <RecentlyViewed />
+
         <Newsletter />
       </main>
       <Footer />

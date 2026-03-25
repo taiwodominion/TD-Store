@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import "../css/NewArrivals.css";
+import {useApp} from "../contexts/AppContext"
 
-const NewArrivals = ({
-  products,
-  onAddToCart,
-  favorites,
-  onToggleFavorite,
-}) => {
+const NewArrivals = ({ onAddToCart, favorites, onToggleFavorite }) => {
+  const { allProducts } = useApp();
   const [arrivalProducts, setArrivalProducts] = useState([]);
 
   useEffect(() => {
-    if (products && products.length > 0) {
-      setArrivalProducts(products.slice(0, 8));
+    if (allProducts && allProducts.length > 0) {
+      setArrivalProducts(allProducts.slice(0, 8));
     }
-  }, [products]);
+  }, [allProducts]);
 
   return (
     <section className="arrivals-viewport">
@@ -31,17 +28,21 @@ const NewArrivals = ({
           </p>
         </div>
 
-        <div className="arrivals-grid">
-          {arrivalProducts.map((item) => (
-            <div key={item.id} className="arrival-item">
-              <ProductCard
-                product={item}
-                onAddToCart={onAddToCart}
-                favorites={favorites}
-                onToggleFavorite={onToggleFavorite}
-              />
-            </div>
-          ))}
+        <div className="arrivals-grid grid-3col">
+          {arrivalProducts.length > 0 ? (
+            arrivalProducts.map((item) => (
+              <div key={item.id} className="arrival-item">
+                <ProductCard
+                  product={item}
+                  onAddToCart={onAddToCart}
+                  favorites={favorites}
+                  onToggleFavorite={onToggleFavorite}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="empty-state">Loading latest arrivals...</div>
+          )}
         </div>
       </div>
     </section>

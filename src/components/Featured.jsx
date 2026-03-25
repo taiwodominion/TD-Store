@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import { useApp } from "../contexts/AppContext";
 import "../css/Featured.css";
 
-const Featured = ({ products, onAddToCart, favorites, onToggleFavorite }) => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-
-  useEffect(() => {
-    if (products && products.length > 0) {
-      setFeaturedProducts(products.slice(0, 6));
-    }
-  }, [products]);
+const Featured = () => {
+  const { allProducts, addToCart, favorites, toggleFavorite } = useApp();
+  const featuredProducts = allProducts.slice(0, 6);
 
   return (
     <section className="featured-viewport">
@@ -27,14 +23,14 @@ const Featured = ({ products, onAddToCart, favorites, onToggleFavorite }) => {
           </Link>
         </div>
 
-        <div className="featured-masonry">
+        <div className="featured-masonry grid-3col">
           {featuredProducts.map((product) => (
             <div key={product.id} className="featured-item-wrapper">
               <ProductCard
                 product={product}
-                onAddToCart={onAddToCart}
+                onAddToCart={addToCart}
                 favorites={favorites}
-                onToggleFavorite={onToggleFavorite}
+                onToggleFavorite={toggleFavorite}
               />
             </div>
           ))}

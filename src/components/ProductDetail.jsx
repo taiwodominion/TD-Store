@@ -39,6 +39,16 @@ export default function ProductDetail() {
     }
   }, [foundProduct, allProducts]);
 
+  useEffect(() => {
+    if (!product) return;
+
+    const viewed = JSON.parse(localStorage.getItem("viewedProducts")) || [];
+    const filtered = viewed.filter((p) => p.id !== product.id);
+    const updated = [product, ...filtered].slice(0, 10);
+
+    localStorage.setItem("viewedProducts", JSON.stringify(updated));
+  }, [product]);
+
   const isLiked = useMemo(() => {
     if (!favorites || !product) return false;
     return favorites.some(

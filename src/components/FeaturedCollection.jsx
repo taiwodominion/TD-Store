@@ -22,7 +22,7 @@ const FeaturedCollection = () => {
         </Link>
       </div>
 
-      <div className="featured-grid">
+      <div className="featured-grid grid-3col">
         {featured.map(product => (
           <ProductCard 
             key={product.id} 
